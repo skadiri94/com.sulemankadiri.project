@@ -1,16 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
-public class Grid extends JFrame{
+import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
+
+/**Creating the grid game panel that also implements action listener that takes in the
+ * the digits through a gui interface **/
+
+public  class Grid extends JFrame implements ActionListener {
 	JPanel p =new JPanel();
-	JTextField textFields[][]=new JTextField[9][9];
+	JTextField textFields[][] = new JTextField[9][9];
 	JPanel overallP =new JPanel();
 	JPanel northPanel = new JPanel();
 	JButton btnCheck = new JButton("Check");
-	
-	public static void main(String args[]){
-		new Grid();
-	}
+
 	
 	public Grid(){
 		super("Grid");
@@ -27,7 +32,22 @@ public class Grid extends JFrame{
                 textFields[i][j].setHorizontalAlignment(JTextField.CENTER);
                 textFields[i][j].setDocument(new JTextFieldLimit(1));
                 p.add(textFields[i][j]);
-            }
+
+				textFields[i][j].addActionListener(new ActionListener() {
+
+					public void actionPerformed(ActionEvent e) {
+						System.out.println("iT gOT TO THIS POINT 1");
+						System.out.println("iT gOT TO THIS POINT");
+						for(int i=0;i<9;i++) {
+							for (int j = 0; j < 9; j++) {
+								textFields[i][j].getText();
+								System.out.println("key Typed" + textFields[i][j].getText());
+							}
+						}
+					}
+				});
+
+			}
 		}
 		fillGrid(textFields);
 		JLabel l = new JLabel("SUDOKO");
@@ -39,6 +59,7 @@ public class Grid extends JFrame{
 		overallP.add(p,BorderLayout.CENTER);
         add(overallP);
 		setVisible(true);
+
 	}
 
 	public int[][] getDigits(){
@@ -72,7 +93,8 @@ public class Grid extends JFrame{
 				}
 			}
 		}
+	public void actionPerformed(ActionEvent e) {
 
-
+	}
 
 }

@@ -106,7 +106,7 @@ public class Sudoku {
         //System.out.println(Arrays.toString(new Grid().getDigits()));
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++)
-                numbers[i][j] = nums[i][j];
+
               print += String.valueOf(nums[i][j]) + " ";
             print += "\n";
 
