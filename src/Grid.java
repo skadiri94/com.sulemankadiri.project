@@ -31,10 +31,8 @@ public  class Grid extends JFrame implements ActionListener {
                 textFields[i][j] = new JTextField();
                 textFields[i][j].setHorizontalAlignment(JTextField.CENTER);
                 textFields[i][j].setDocument(new JTextFieldLimit(1));
-                p.add(textFields[i][j]);
-
 				textFields[i][j].addActionListener(new ActionListener() {
-
+//adding an action listener to the JText Fields.
 					public void actionPerformed(ActionEvent e) {
 						System.out.println("iT gOT TO THIS POINT 1");
 						System.out.println("iT gOT TO THIS POINT");
@@ -46,6 +44,9 @@ public  class Grid extends JFrame implements ActionListener {
 						}
 					}
 				});
+                p.add(textFields[i][j]);
+
+
 
 			}
 		}
