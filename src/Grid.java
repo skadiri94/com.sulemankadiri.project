@@ -26,12 +26,10 @@ public class Grid extends JFrame{
                 textFields[i][j] = new JTextField();
                 textFields[i][j].setHorizontalAlignment(JTextField.CENTER);
                 textFields[i][j].setDocument(new JTextFieldLimit(1));
-                digits = (int) (Math.random() * ((9 - 1) + 1)) + 1;
-                textFields[i][j].setText(String.valueOf(digits));
-
                 p.add(textFields[i][j]);
             }
 		}
+		fillGrid(textFields);
 		JLabel l = new JLabel("SUDOKO");
 		l.setSize(100,100);
 		overallP.setLayout(new BorderLayout());
@@ -53,6 +51,26 @@ public class Grid extends JFrame{
 			//}
 			return allNums;
 			//});
+		}
+
+		public void fillGrid(JTextField[][] textFields){
+			int[][] digits = new int[9][9];
+
+			for(int i=0;i<digits.length;i++){
+				for (int j = 0; j < digits.length; j++) {
+					while(!textFields[i][j].getText().equals("")) {
+						digits[i][j] = Integer.parseInt(textFields[i][j].getText());
+						textFields[i][j].setText(String.valueOf(digits[i][j]));
+
+					}
+					/*do{
+						textFields[i][j].setText(String.valueOf(digits[i][j]));
+					}while(textFields != null);*/
+					//digits[i][j] = (int) (Math.random() * ((9 - 1) + 1)) + 1;
+
+
+				}
+			}
 		}
 
 

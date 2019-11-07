@@ -10,7 +10,7 @@ public class SudokuDriver {
         //String s = JOptionPane.showInputDialog(null ,"Enter anything");
 
         sd.fillSudoku();
-        System.out.println(sd.toString());
+        //System.out.println(sd.toString());
 
     }
 }

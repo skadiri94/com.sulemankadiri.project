@@ -1,9 +1,8 @@
 /**The Sudoko Generator**/
-import java.util.*;
 
 public class Sudoku {
 
-    private int[] numbers[];
+    private int[][] numbers[][];
     private int numOfRC; //number of rows and columns.
     private int missingNum; // number of missing digits.
     private int sqrtOfN; //square root of number of numOfColRow.
@@ -17,7 +16,7 @@ public class Sudoku {
         setMissingNum(missingN);
         setSqrtOfN(sqrtOfN);
         sGrid = new Grid();
-        numbers = new int[numOfRC][numOfRC];
+       // numbers = new int[numOfRC][numOfRC];
 
 
     }
@@ -66,7 +65,7 @@ public class Sudoku {
 
 
     // Returns false if given 3 x 3 block contains num.
-    boolean unUsedInBox(int rowStart, int colStart, int num)
+   /* boolean unUsedInBox(int rowStart, int colStart, int num)
     {
         for (int i = 0; i<numOfRC; i++)
             for (int j = 0; j<numOfRC; j++)
@@ -74,11 +73,11 @@ public class Sudoku {
                     return false;
 
         return true;
-    }
+    }*/
 
     void populateSudoku(int row,int col) {
-        int num = 0;
-       /* for (int i=0; i<row; i++)
+      /*  int num = 0;
+      for (int i=0; i<row; i++)
         {
             for (int j=0; j<col; j++)
             {
@@ -89,8 +88,8 @@ public class Sudoku {
                 //numbers[i][j] = num;
 
             }
-        }*/
-
+        }
+*/
         genRadomNum();
     }
 
@@ -98,47 +97,56 @@ public class Sudoku {
 
     //Generating random number
 
-    public void genRadomNum(){
+    public void genRadomNum() {
+       int[][] nums = new int[9][9];
+
+       nums = sGrid.getDigits();
+       String print = "";
 
         //System.out.println(Arrays.toString(new Grid().getDigits()));
-        sGrid.getDigits();
-        
-    }
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++)
+                numbers[i][j] = nums[i][j];
+              print += String.valueOf(nums[i][j]) + " ";
+            print += "\n";
 
-    //check if the digit already exist in Row
-    public boolean alreadyPickedRow(int i, int num){
+        }
+        System.out.println(print);
+    }
+            //check if the digit already exist in Row
+  /*  public boolean alreadyPickedRow(int i, int num){
 
         for(int j = 0; j < numOfRC; j++)
             if(numbers[i][j] == num)
                 return false;
         return true;
     }
-
-    //check if the digit already exist in Column
-    public boolean alreadyPickedCol(int j, int num){
+*/
+            //check if the digit already exist in Column
+  /*  public boolean alreadyPickedCol(int j, int num){
 
         for(int i = 0; i < numOfRC; i++)
             if(numbers[i][j] == num)
                 return false;
         return true;
     }
+*/
+            public String toString () {
+                //int allNums[][] = new int[9][9];
+               // allNums = new Grid().getDigits();
 
-    public String toString(){
-        int allNums[][] = new int[9][9];
-        allNums = new Grid().getDigits();
-
-            String print = "";
-        for (int i = 0; i<numOfRC; i++)
-        {
-            for (int j = 0; j<numOfRC; j++)
-                print += allNums[i][j] + " ";
+                String print = "";
+                for (int i = 0; i < numbers.length; i++) {
+                    for (int j = 0; j < numbers.length; j++)
+                        print += numbers[i][j] + " ";
+                    print += "\n";
+                }
                 print += "\n";
+                return print;
+            }
+
+
         }
-        print += "\n";
-        return print;
-    }
 
-
-}
 
 
