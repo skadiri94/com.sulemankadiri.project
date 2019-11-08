@@ -1,4 +1,6 @@
-/**The Sudoko Generator**/
+/**
+ * The Sudoko Generator
+ **/
 
 public class Sudoku {
 
@@ -16,12 +18,14 @@ public class Sudoku {
         setMissingNum(missingN);
         setSqrtOfN(sqrtOfN);
         sGrid = new Grid();
-       // numbers = new int[numOfRC][numOfRC];
+        // numbers = new int[numOfRC][numOfRC];
 
 
     }
 
-    /**setters of the Numbers **/
+    /**
+     * setters of the Numbers
+     **/
     public void setNumOfRC(int numOfRC) {
         this.numOfRC = numOfRC;
     }
@@ -38,25 +42,30 @@ public class Sudoku {
         this.sqrtOfN = sqrtOfN;
     }
 
-    /**end of setter methods**/
+    /**
+     * end of setter methods
+     **/
 
-    public void fillSudoku(){
+    public void fillSudoku() {
 
         //for (int i = 0; i<numOfRC; i=i+sqrtOfN) {
 
-            // for diagonal box, start coordinates->i==j
-            populateSudoku(9, 9);
+        // for diagonal box, start coordinates->i==j
+        populateSudoku(9, 9);
         //}
     }
-    /**generating the Sudoku numbers **/
 
-    public void cellGenerator(int row, int col){
+    /**
+     * generating the Sudoku numbers
+     **/
+
+    public void cellGenerator(int row, int col) {
 
         int digits;
 
-        for(int i = 0; i < sqrtOfN; i++){
+        for (int i = 0; i < sqrtOfN; i++) {
 
-            for(int j = 0; j < sqrtOfN; j++){
+            for (int j = 0; j < sqrtOfN; j++) {
 
             }
         }
@@ -75,7 +84,7 @@ public class Sudoku {
         return true;
     }*/
 
-    void populateSudoku(int row,int col) {
+    void populateSudoku(int row, int col) {
       /*  int num = 0;
       for (int i=0; i<row; i++)
         {
@@ -94,26 +103,26 @@ public class Sudoku {
     }
 
 
-
     //Generating random number
 
     public void genRadomNum() {
-       int[][] nums = new int[9][9];
+        int[][] nums = new int[9][9];
 
-       nums = sGrid.getDigits();
-       String print = "";
+        nums = sGrid.getDigits();
+        String print = "";
 
         //System.out.println(Arrays.toString(new Grid().getDigits()));
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++)
 
-              print += String.valueOf(nums[i][j]) + " ";
+                print += String.valueOf(nums[i][j]) + " ";
             print += "\n";
 
         }
         System.out.println(print);
     }
-            //check if the digit already exist in Row
+
+    //check if the digit already exist in Row
   /*  public boolean alreadyPickedRow(int i, int num){
 
         for(int j = 0; j < numOfRC; j++)
@@ -122,7 +131,7 @@ public class Sudoku {
         return true;
     }
 */
-            //check if the digit already exist in Column
+    //check if the digit already exist in Column
   /*  public boolean alreadyPickedCol(int j, int num){
 
         for(int i = 0; i < numOfRC; i++)
@@ -131,22 +140,22 @@ public class Sudoku {
         return true;
     }
 */
-            public String toString () {
-                //int allNums[][] = new int[9][9];
-               // allNums = new Grid().getDigits();
+    public String toString() {
+        //int allNums[][] = new int[9][9];
+        // allNums = new Grid().getDigits();
 
-                String print = "";
-                for (int i = 0; i < numbers.length; i++) {
-                    for (int j = 0; j < numbers.length; j++)
-                        print += numbers[i][j] + " ";
-                    print += "\n";
-                }
-                print += "\n";
-                return print;
-            }
-
-
+        String print = "";
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = 0; j < numbers.length; j++)
+                print += numbers[i][j] + " ";
+            print += "\n";
         }
+        print += "\n";
+        return print;
+    }
+
+
+}
 
 
 
