@@ -34,8 +34,10 @@ public  class Grid extends JFrame {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				textFields[i][j] = new JTextField();
+				new JTextFieldLimit(textFields);
 				textFields[i][j].setHorizontalAlignment(JTextField.CENTER);
-				textFields[i][j].setDocument(new JTextFieldLimit(1));
+				textFields[i][j]= new JTextField();
+
 				textFields[i][j].addActionListener(new ActionListener() {
 					//adding an action listener to the JText Fields.
 					public void actionPerformed(ActionEvent e) {

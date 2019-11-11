@@ -3,43 +3,51 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
-    class JTextFieldLimit extends PlainDocument {
-        private int limit;
-        JTextFieldLimit(int limit) {
-            super();
-            this.limit = limit;
-        }
-        JTextFieldLimit(int limit, boolean upper) {
-            super();
-            this.limit = limit;
-        }
-        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
-            if (str == null)
-                return;
-            if ((getLength() + str.length()) <= limit) {
-                super.insertString(offset, str, attr);
+    class JTextFieldLimit extends JFrame{
+
+        public JTextFieldLimit(JTextField jt) {
+
+                    jt = FilteredField();
+
             }
+
+
+        public JTextField FilteredField() {
+            JTextField textfield = new JTextField(7);
+            AbstractDocument document = (AbstractDocument) textfield.getDocument();
+            final int maxCharacters = 1;
+            document.setDocumentFilter(new DocumentFilter() {
+                public void replace(FilterBypass fb, int offs, int length,
+                                    String str, AttributeSet a) throws BadLocationException {
+
+                    String text = fb.getDocument().getText(0,
+                            fb.getDocument().getLength());
+                    text += str;
+                    if ((fb.getDocument().getLength() + str.length() - length) <= maxCharacters
+                            && text.matches("^[1-9]")) {
+                        super.replace(fb, offs, length, str, a);
+                    } else {
+                        Toolkit.getDefaultToolkit().beep();
+                    }
+                }
+
+                public void insertString(FilterBypass fb, int offs, String str,
+                                         AttributeSet a) throws BadLocationException {
+
+                    String text = fb.getDocument().getText(0,
+                            fb.getDocument().getLength());
+                    text += str;
+                    if ((fb.getDocument().getLength() + str.length()) <= maxCharacters
+                            && text.matches("^[1-9]")) {
+                        super.insertString(fb, offs, str, a);
+                    } else {
+                        Toolkit.getDefaultToolkit().beep();
+                    }
+                }
+            });
+            return textfield;
         }
 
-   public static class JTextFieldLimitTest extends JFrame {
-        JTextField textfield;
-        JLabel label;
 
-        public static void main(String[]args){
-            new JTextFieldLimitTest().GUI();
-        }
-        public void GUI() {
-            setLayout(new FlowLayout());
-            label = new JLabel("max 10 chars");
-            textfield = new JTextField(15);
-            add(label);
-            add(textfield);
-            textfield.setDocument(new JTextFieldLimit(1));
 
-            setSize(350,300);
-            setLocationRelativeTo(null);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setVisible(true);
-        }
-    }
 }
