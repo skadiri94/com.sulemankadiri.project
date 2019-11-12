@@ -1,10 +1,12 @@
 import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 
@@ -13,7 +15,7 @@ import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 
 public  class Grid extends JFrame {
 	JPanel gPanel = new JPanel();
-	JTextField textFields[][] = new JTextField[9][9];
+	JFormattedTextField textFields[][] = new JFormattedTextField[9][9];
 	JPanel overallP = new JPanel();
 	JPanel northPanel = new JPanel();
 	JPanel eastPanel = new JPanel();
@@ -33,11 +35,19 @@ public  class Grid extends JFrame {
 
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				textFields[i][j] = new JTextField();
-				new JTextFieldLimit(textFields);
-				textFields[i][j].setHorizontalAlignment(JTextField.CENTER);
-				textFields[i][j]= new JTextField();
-
+				/**Was trying to get each cell of the sudoko box restricted for only integer and a single value input
+				 * had problems with the java document hence i used the JFormattedTextField
+				 * https://stackoverflow.com/questions/11093326/restricting-jtextfield-input-to-integers
+				 */
+				textFields[i][j]  = null;
+				try {
+					textFields[i][j] = new JFormattedTextField(
+							new MaskFormatter("#"));
+					textFields[i][j].setColumns(1);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				textFields[i][j].setHorizontalAlignment(JFormattedTextField.CENTER);
 				textFields[i][j].addActionListener(new ActionListener() {
 					//adding an action listener to the JText Fields.
 					public void actionPerformed(ActionEvent e) {
