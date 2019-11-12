@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
+
 
 /**Creating the grid game panel that also implements action listener that takes in the
  * the digits through a gui interface **/
@@ -66,7 +66,7 @@ public  class Grid extends JFrame {
 
 			}
 		}
-		fillGrid(textFields);
+
 		JLabel l = new JLabel("SUDOKO");
 		l.setSize(100, 100);
 		overallP.setLayout(new BorderLayout());
@@ -107,9 +107,13 @@ public  class Grid extends JFrame {
 		for (int i = 0; i < digits.length; i++) {
 			for (int j = 0; j < digits.length; j++) {
 				//while(!textFields[i][j].getText().equals("")) {
-				digits[i][j] = (int) (Math.random() * ((9 - 1) + 1)) + 1;
+				//digits[i][j] = (int) (Math.random() * ((9 - 1) + 1)) + 1;
+				digits[i][j] = 0;
 				//digits[i][j] = Integer.parseInt(textFields[i][j].getText());
 				textFields[i][j].setText(String.valueOf(digits[i][j]));
+				if(Integer.parseInt(textFields[i][j].getText()) == 0){
+					textFields[i][j].setText(String.valueOf(""));
+				}
 
 			}
 					/*do{
@@ -120,11 +124,46 @@ public  class Grid extends JFrame {
 
 		}
 	}
+	// Remove the K no. of digits to
+	// complete game
+	public void addSDigits()
+	{
 
+
+		int count = 20;
+		while (count != 0)
+		{
+			int cellId = randomGenerator(9*9);
+			System.out.print(cellId);
+
+			// System.out.println(cellId);
+			// extract coordinates i  and j
+			int i = (9-cellId);
+			int j = cellId%9;
+			if (j == 0)
+				j = j + 1;
+
+			System.out.println(i+" "+j);
+			if (Integer.parseInt(textFields[i][j].getText()) == 0)
+			{
+				count--;
+				int digits = (int) (Math.random() * ((9 - 1) + 1)) + 1;
+				textFields[i][j].setText(String.valueOf(digits));
+			}
+		}
+
+	}
+
+	int randomGenerator(int num)
+	{
+		return (int) Math.floor((Math.random()*num+1));
+	}
 
 
 	private class BtnCheck implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
+			fillGrid(textFields);
+			addSDigits();
 		System.out.println("Welcome");
 		} // end actionPerformed
 	} // end CancelButtonHandler inner class

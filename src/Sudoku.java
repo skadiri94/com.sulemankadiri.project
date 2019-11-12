@@ -18,6 +18,7 @@ public class Sudoku {
         setMissingNum(missingN);
         setSqrtOfN(sqrtOfN);
         sGrid = new Grid();
+
         // numbers = new int[numOfRC][numOfRC];
 
 
