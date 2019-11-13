@@ -107,13 +107,13 @@ public  class Grid extends JFrame {
 		for (int i = 0; i < digits.length; i++) {
 			for (int j = 0; j < digits.length; j++) {
 				//while(!textFields[i][j].getText().equals("")) {
-				//digits[i][j] = (int) (Math.random() * ((9 - 1) + 1)) + 1;
-				digits[i][j] = 0;
+				digits[i][j] = (int) (Math.random() * ((9 - 1) + 1)) + 1;
+				//digits[i][j] = 0;
 				//digits[i][j] = Integer.parseInt(textFields[i][j].getText());
 				textFields[i][j].setText(String.valueOf(digits[i][j]));
-				if(Integer.parseInt(textFields[i][j].getText()) == 0){
+				/*if(Integer.parseInt(textFields[i][j].getText()) == 0){
 					textFields[i][j].setText(String.valueOf(""));
-				}
+				}*/
 
 			}
 					/*do{
@@ -126,32 +126,27 @@ public  class Grid extends JFrame {
 	}
 	// Remove the K no. of digits to
 	// complete game
-	public void addSDigits()
+	public void removeMDigits()
 	{
-
-
-		int count = 20;
+		int count = 65;
 		while (count != 0)
 		{
 			int cellId = randomGenerator(9*9);
-			System.out.print(cellId);
 
 			// System.out.println(cellId);
 			// extract coordinates i  and j
-			int i = (9-cellId);
+			int i = (cellId/9);
 			int j = cellId%9;
-			if (j == 0)
-				j = j + 1;
+			if (j != 0)
+				j = j - 1;
 
-			System.out.println(i+" "+j);
-			if (Integer.parseInt(textFields[i][j].getText()) == 0)
+			// System.out.println(i+" "+j);
+			if (Integer.parseInt(textFields[i][j].getText())!= 0)
 			{
 				count--;
-				int digits = (int) (Math.random() * ((9 - 1) + 1)) + 1;
-				textFields[i][j].setText(String.valueOf(digits));
+				textFields[i][j].setText(String.valueOf(0));
 			}
 		}
-
 	}
 
 	int randomGenerator(int num)
@@ -163,7 +158,7 @@ public  class Grid extends JFrame {
 	private class BtnCheck implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			fillGrid(textFields);
-			addSDigits();
+			removeMDigits();
 		System.out.println("Welcome");
 		} // end actionPerformed
 	} // end CancelButtonHandler inner class
