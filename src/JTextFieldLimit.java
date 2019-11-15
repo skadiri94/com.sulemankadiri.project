@@ -3,18 +3,23 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
-    class JTextFieldLimit extends JFrame{
+    class JTextFieldLimit {
 
-        public JTextFieldLimit(JTextField jt) {
-
-                    jt = FilteredField();
+        public JTextFieldLimit() {
+            JPanel pn = new JPanel();
+            JTextField  jt = new JTextField();
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    pn.add(jt);
+                }
+                }
 
             }
 
 
         public JTextField FilteredField() {
-            JTextField textfield = new JTextField(7);
-            AbstractDocument document = (AbstractDocument) textfield.getDocument();
+            JTextField textField = new JTextField(1);
+            AbstractDocument document = (AbstractDocument) textField.getDocument();
             final int maxCharacters = 1;
             document.setDocumentFilter(new DocumentFilter() {
                 public void replace(FilterBypass fb, int offs, int length,
@@ -45,7 +50,7 @@ import javax.swing.text.*;
                     }
                 }
             });
-            return textfield;
+            return textField;
         }
 
 

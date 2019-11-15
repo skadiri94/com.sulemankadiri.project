@@ -1,17 +1,15 @@
-import javax.swing.*;
-
 public class SudokuDriver {
 
     public static void main(String[] args) {
 
-        Sudoku sd = new Sudoku(9,20);
+        Sudoku sd = new Sudoku();
 
 
         //String s = JOptionPane.showInputDialog(null ,"Enter anything");
 
-        sd.fillSudoku();
+       sd.fillSudoku();
+        System.out.println(sd.toString());
 
-        //System.out.println(sd.toString());
 
     }
 }
