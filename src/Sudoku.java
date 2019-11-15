@@ -26,15 +26,15 @@ public class Sudoku {
     // Sudoku Generator
     public void fillSudoku()
     {
-        // Fill the diagonal of SRN x SRN matrices
+        // Fill the diagonal of 3*3 subGrid
         populateDiagonal();
 
 
         // Fill remaining blocks
         populateSuperGrid(0, subGrid);
 
-        // Remove Randomly K digits to make game
-        //removeKDigits();
+        // Remove Randomly Missing digits to make game
+        removeMNum(40);
     }
 
     public void setSuperGrid(int superGrid) {
@@ -43,6 +43,18 @@ public class Sudoku {
 
     public void setSubGrid(int subGrid) {
         this.subGrid = subGrid;
+    }
+
+    public int getSuperGrid() {
+        return superGrid;
+    }
+
+    public int getSubGrid() {
+        return subGrid;
+    }
+
+    public int[][] getPuzzle() {
+        return puzzle;
     }
 
     //The method generates a random number between 1-9.
@@ -174,12 +186,14 @@ public class Sudoku {
         int count = mNum;
         while (count != 0)
         {
-            int cellId = genRandomNum(9);
+            int cellIndex = genRandomNum(superGrid*superGrid);
 
-            // System.out.println(cellId);
+
+            //System.out.println(cellIndex);
             // extract coordinates i  and j
-            int i = (cellId/superGrid);
-            int j = cellId%superGrid;
+            int i = (cellIndex/superGrid);
+            int j = cellIndex%superGrid;
+
             if (j != 0)
                 j = j - 1;
 
@@ -190,6 +204,18 @@ public class Sudoku {
                 puzzle[i][j] = 0;
             }
         }
+    }
+
+    public int[][] getSudoku(){
+        int [][] num = new int[9][9];
+
+        for(int i=0;i<this.puzzle.length;i++){
+            for(int j=0;j<this.puzzle[i].length;j++){
+                num[i][j] = this.puzzle[i][j];
+            }
+        }
+
+        return num;
     }
 
 
