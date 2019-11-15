@@ -206,6 +206,11 @@ public class Sudoku {
         }
     }
 
+/**
+ * I had problems with the 2D array trying to get the reference instead of the contents
+ * I  did research on 2D arrays on http://math.hws.edu/javanotes/c7/s5.html and got to resolve
+ * the problem.**/
+
     public int[][] getSudoku(){
         int [][] num = new int[9][9];
 

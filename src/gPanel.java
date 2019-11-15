@@ -69,9 +69,11 @@ public class gPanel extends JPanel {
                 inputFields[row][col].setEditable(false);
                 inputFields[row][col].setFont(FONT_SIZE);
 
+
                 if (Integer.parseInt(inputFields[row][col].getText()) == 0) {
                     inputFields[row][col].setEditable(true);
                     inputFields[row][col].setText("");
+
                 }
 
                 add(inputFields[row][col]);
