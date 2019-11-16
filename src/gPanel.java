@@ -24,7 +24,7 @@ public class gPanel extends JPanel {
     private final Color OPEN_CELL_TEXT_YES = new Color(100, 180, 100);
     private Color OPEN_CELL_TEXT_NO = new Color(200, 0, 50);
     private final Font FONT_SIZE = new Font("Arial", Font.BOLD, 16);
-    private Sudoku puzzle = new Sudoku();
+    //private Sudoku puzzle = new Sudoku();
     private JFormattedTextField inputFields[][] = new JFormattedTextField[9][9];
     int[][]finalPuzzle;
     int [][]temp;
@@ -44,15 +44,17 @@ public class gPanel extends JPanel {
         setPanelWidth(getCellSize() * inputFields.length);
         setPanelHeight(getCellSize() * inputFields.length);
         setLayout(new GridLayout(inputFields.length, inputFields.length));
+        Sudoku puzzle = new Sudoku();
         puzzle.fillSudoku();//Generates complete puzzle.
         //creates a variable to store final puzzle
         finalPuzzle = puzzle.getPuzzle();
-        puzzle.removeMNum(20);//Removing missing digits to create an unsolved puzzle
+        System.out.print(tooString(finalPuzzle));
+        ///puzzle.removeMNum(20);//Removing missing digits to create an unsolved puzzle
         //puzzle.removeMNum(40);
         //System.out.print("Hello Man");
         //System.out.print(puzzle.toString());
-
-        temp = puzzle.getSudoku();//saving the unsolved variable to temp
+        temp = geetSudoku(finalPuzzle);
+        reemoveMNum(20, temp);//saving the unsolved variable to temp
         /** Allocating a listener to all the input Fields**/
 
         InputListener listener = new InputListener();
@@ -153,24 +155,30 @@ public class gPanel extends JPanel {
             }
 
             /*
-             * [TODO 5]
+             *
              * 1. Get the input String via tfCells[rowSelected][colSelected].getText()
              * 2. Convert the String to int via Integer.parseInt().
              * 3. Assume that the solution is unique. Compare the input number with
              *    the number in the puzzle[rowSelected][colSelected].  If they are the same,
              *    set the background to green (Color.GREEN); otherwise, set to red (Color.RED).
              */
-            //input = Integer.parseInt(inputFields[selectedRow][selectedCol].getText());
+            input = Integer.parseInt(inputFields[selectedRow][selectedCol].getText());
+            //System.out.print(input);
             //if(isMatch(finalPuzzle,input))
-            if(inputFields[selectedRow][selectedCol].getText().equals("")){
-                inputFields[selectedRow][selectedCol].setText("");
-                inputFields[selectedRow][selectedCol].setBackground(OPEN_CELL_TEXT_YES);}
-            else {
-                inputFields[selectedRow][selectedCol].setText("");
-                inputFields[selectedRow][selectedCol].setBackground(OPEN_CELL_TEXT_NO);
-                System.out.print(selectedRow +" "+ selectedCol);
-                System.out.print(tooString(finalPuzzle));
+            if(input == finalPuzzle[selectedRow][selectedCol]){
+                inputFields[selectedRow][selectedCol].setBackground(OPEN_CELL_TEXT_YES);
+                System.out.print(input + " Matches" + finalPuzzle[selectedRow][selectedCol] );
             }
+
+            else
+                inputFields[selectedRow][selectedCol].setBackground(OPEN_CELL_TEXT_NO);
+                /*System.out.println(selectedRow +" "+ selectedCol);
+                System.out.print(tooString(finalPuzzle));
+                System.out.print(finalPuzzle[selectedRow][selectedCol]);
+
+                else
+                    System.out.print("false");*/
+
 
             /*
              * [TODO 6] Check if the player has solved the puzzle after this move.
@@ -205,6 +213,42 @@ public class gPanel extends JPanel {
 
 
         return digits;
+    }
+    public int[][] geetSudoku(int [][] puzzle){
+        int [][] num = new int[9][9];
+
+        for(int i=0;i<puzzle.length;i++){
+            for(int j=0;j<puzzle[i].length;j++){
+                num[i][j] = puzzle[i][j];
+            }
+        }
+
+        return num;
+    }
+
+    public void reemoveMNum(int mNum, int[][] puzzle)
+    {
+        int count = mNum;
+        while (count != 0)
+        {
+            int cellIndex = ((int) (Math.random()*(81 - 1 + 1))) + 1;
+
+
+            //System.out.println(cellIndex);
+            // extract coordinates i  and j
+            int i = (cellIndex/9);
+            int j = cellIndex%9;
+
+            if (j != 0)
+                j = j - 1;
+
+            // System.out.println(i+" "+j);
+            if (puzzle[i][j] != 0)
+            {
+                count--;
+                puzzle[i][j] = 0;
+            }
+        }
     }
 }
 
