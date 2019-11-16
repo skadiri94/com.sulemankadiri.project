@@ -1,7 +1,11 @@
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
+
+import static java.lang.String.valueOf;
 
 public class gPanel extends JPanel {
 
@@ -22,6 +26,8 @@ public class gPanel extends JPanel {
     private final Font FONT_SIZE = new Font("Arial", Font.BOLD, 16);
     private Sudoku puzzle = new Sudoku();
     private JFormattedTextField inputFields[][] = new JFormattedTextField[9][9];
+    int[][]finalPuzzle;
+    int [][]temp;
 
         /*
         JPanel overallP = new JPanel();
@@ -38,15 +44,18 @@ public class gPanel extends JPanel {
         setPanelWidth(getCellSize() * inputFields.length);
         setPanelHeight(getCellSize() * inputFields.length);
         setLayout(new GridLayout(inputFields.length, inputFields.length));
-        puzzle.fillSudoku();
+        puzzle.fillSudoku();//Generates complete puzzle.
+        //creates a variable to store final puzzle
+        finalPuzzle = puzzle.getPuzzle();
+        puzzle.removeMNum(20);//Removing missing digits to create an unsolved puzzle
         //puzzle.removeMNum(40);
         //System.out.print("Hello Man");
         //System.out.print(puzzle.toString());
-        int [][]temp = new int[9][9];
-        temp = puzzle.getSudoku();
+
+        temp = puzzle.getSudoku();//saving the unsolved variable to temp
         /** Allocating a listener to all the input Fields**/
 
-        //InputListener listener = new InputListener();
+        InputListener listener = new InputListener();
         //Constructing the inputCells 9*9
 
         for (int row = 0; row < inputFields.length; ++row) {
@@ -56,7 +65,9 @@ public class gPanel extends JPanel {
                  * had problems with the java document hence i used the JFormattedTextField
                  * https://stackoverflow.com/questions/11093326/restricting-jtextfield-input-to-integers
                  */
-                inputFields[row][col] = null;
+
+               // inputFields[row][col] = null;
+                //inputFields[row][col] = new JFormattedTextField();
                 try {
                     inputFields[row][col] = new JFormattedTextField(
                             new MaskFormatter("#"));
@@ -64,20 +75,26 @@ public class gPanel extends JPanel {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                inputFields[row][col].setHorizontalAlignment(JFormattedTextField.CENTER);//Aligns the input to the center
-                inputFields[row][col].setText(temp[row][col] + " ");
-                inputFields[row][col].setEditable(false);
-                inputFields[row][col].setFont(FONT_SIZE);
+                //Assigning the temp variable to grids
+                inputFields[row][col].setText((temp[row][col]) +"");
 
+                if (Integer.parseInt(inputFields[row][col].getText()) != 0){
+                    inputFields[row][col].setText(valueOf(temp[row][col]));
+                    inputFields[row][col].setEditable(false);
 
-                if (Integer.parseInt(inputFields[row][col].getText()) == 0) {
-                    inputFields[row][col].setEditable(true);
+                }
+                else {
+
                     inputFields[row][col].setText("");
+                    inputFields[row][col].setEditable(true);
+                    inputFields[row][col].addActionListener(listener);
 
                 }
 
-                add(inputFields[row][col]);
+                inputFields[row][col].setHorizontalAlignment(JFormattedTextField.CENTER);//Aligns the input to the center
+                inputFields[row][col].setFont(FONT_SIZE);
 
+                add(inputFields[row][col]);
             }
         }
 
@@ -108,6 +125,86 @@ public class gPanel extends JPanel {
 
     public int getPanelHeight() {
         return panelHeight;
+    }
+
+
+    private class InputListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // All the 9*9 JFormattedTextField invoke this handler. We need to determine
+            // which JFormattedTextField (which row and column) is the source for this invocation.
+            int selectedRow = -1;
+            int selectedCol = -1;
+            int input;
+
+            // Getting the source object that fired the event
+            JFormattedTextField source = (JFormattedTextField)e.getSource();
+            // Scan JFormattedTextField for all rows and columns, and match with the source object
+            boolean found = false;
+            for (int row = 0; row < inputFields.length && !found; ++row) {
+                for (int col = 0; col < inputFields[row].length && !found; ++col) {
+                    if (inputFields[row][col] == source) {
+                        selectedRow = row;
+                        selectedCol = col;
+                        found = true;  // break the inner/outer loops
+                    }
+                }
+            }
+
+            /*
+             * [TODO 5]
+             * 1. Get the input String via tfCells[rowSelected][colSelected].getText()
+             * 2. Convert the String to int via Integer.parseInt().
+             * 3. Assume that the solution is unique. Compare the input number with
+             *    the number in the puzzle[rowSelected][colSelected].  If they are the same,
+             *    set the background to green (Color.GREEN); otherwise, set to red (Color.RED).
+             */
+            //input = Integer.parseInt(inputFields[selectedRow][selectedCol].getText());
+            //if(isMatch(finalPuzzle,input))
+            if(inputFields[selectedRow][selectedCol].getText().equals("")){
+                inputFields[selectedRow][selectedCol].setText("");
+                inputFields[selectedRow][selectedCol].setBackground(OPEN_CELL_TEXT_YES);}
+            else {
+                inputFields[selectedRow][selectedCol].setText("");
+                inputFields[selectedRow][selectedCol].setBackground(OPEN_CELL_TEXT_NO);
+                System.out.print(selectedRow +" "+ selectedCol);
+                System.out.print(tooString(finalPuzzle));
+            }
+
+            /*
+             * [TODO 6] Check if the player has solved the puzzle after this move.
+             * You could update the masks[][] on correct guess, and check the masks[][] if
+             * any input cell pending.
+             */
+
+        }
+    }
+
+    public boolean isMatch(int [][] puzzle, int num){
+
+        for(int row = 0; row<puzzle.length;row++)
+            for(int col = 0; col<puzzle[row].length; col++)
+                if(puzzle[row][col] == num)
+                    return true;
+
+        return false;
+
+    }
+
+    public String tooString(int [][] finalPuzzle) {
+        String digits = "";
+        for (int i = 0; i<finalPuzzle.length; i++)
+        {
+            for (int j = 0; j<finalPuzzle[i].length; j++){
+                digits += finalPuzzle[i][j] + " ";
+
+            }
+            digits +=  "\n";
+        }
+
+
+        return digits;
     }
 }
 

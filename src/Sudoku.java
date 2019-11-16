@@ -34,7 +34,7 @@ public class Sudoku {
         populateSuperGrid(0, subGrid);
 
         // Remove Randomly Missing digits to make game
-        removeMNum(40);
+        //removeMNum(20);
     }
 
     public void setSuperGrid(int superGrid) {

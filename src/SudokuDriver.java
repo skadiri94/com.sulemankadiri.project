@@ -3,6 +3,7 @@ public class SudokuDriver {
     public static void main(String[] args) {
 
         Sudoku sd = new Sudoku();
+        new Grid();
         new gPanel();
 
 
