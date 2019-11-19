@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -21,8 +22,8 @@ public class gPanel extends JPanel {
     private int panelHeight;
     private final Color OPEN_CELL = new Color(245, 240, 240);
     private final Color CLOSED_CELL = new Color(140, 140, 140);
-    private final Color OPEN_CELL_TEXT_YES = new Color(100, 180, 100);
-    private Color OPEN_CELL_TEXT_NO = new Color(200, 0, 50);
+    private final Color CORRECT = new Color(100, 180, 100);
+    private Color WRONG = new Color(200, 0, 50);
     private final Font FONT_SIZE = new Font("Arial", Font.BOLD, 16);
     //private Sudoku puzzle = new Sudoku();
     private JFormattedTextField inputFields[][] = new JFormattedTextField[9][9];
@@ -74,11 +75,12 @@ public class gPanel extends JPanel {
                     inputFields[row][col] = new JFormattedTextField(
                             new MaskFormatter("#"));
                     inputFields[row][col].setColumns(1);//Sets the number of inputs allowed in a cell
+                    inputFields[row][col].setFocusLostBehavior( JFormattedTextField.COMMIT );
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 //Assigning the temp variable to grids
-                inputFields[row][col].setText((temp[row][col]) +"");
+                inputFields[row][col].setValue((temp[row][col]));
 
                 if (Integer.parseInt(inputFields[row][col].getText()) != 0){
                     inputFields[row][col].setText(valueOf(temp[row][col]));
@@ -87,9 +89,10 @@ public class gPanel extends JPanel {
                 }
                 else {
 
-                    inputFields[row][col].setText("");
+                    inputFields[row][col].setValue(null);
                     inputFields[row][col].setEditable(true);
                     inputFields[row][col].addActionListener(listener);
+
 
                 }
 
@@ -162,16 +165,17 @@ public class gPanel extends JPanel {
              *    the number in the puzzle[rowSelected][colSelected].  If they are the same,
              *    set the background to green (Color.GREEN); otherwise, set to red (Color.RED).
              */
+
             input = Integer.parseInt(inputFields[selectedRow][selectedCol].getText());
             //System.out.print(input);
             //if(isMatch(finalPuzzle,input))
-            if(input == finalPuzzle[selectedRow][selectedCol]){
-                inputFields[selectedRow][selectedCol].setBackground(OPEN_CELL_TEXT_YES);
+            if(input == finalPuzzle[selectedRow][selectedCol] ){
+                inputFields[selectedRow][selectedCol].setBackground(CORRECT);
                 System.out.print(input + " Matches" + finalPuzzle[selectedRow][selectedCol] );
             }
 
             else
-                inputFields[selectedRow][selectedCol].setBackground(OPEN_CELL_TEXT_NO);
+                inputFields[selectedRow][selectedCol].setBackground(WRONG);
                 /*System.out.println(selectedRow +" "+ selectedCol);
                 System.out.print(tooString(finalPuzzle));
                 System.out.print(finalPuzzle[selectedRow][selectedCol]);
@@ -229,6 +233,7 @@ public class gPanel extends JPanel {
     public void reemoveMNum(int mNum, int[][] puzzle)
     {
         int count = mNum;
+       // while
         while (count != 0)
         {
             int cellIndex = ((int) (Math.random()*(81 - 1 + 1))) + 1;

@@ -33,24 +33,12 @@ public class SudokuFrame0 extends JFrame {
         JTextArea jta = new JTextArea();
         jta.setEditable(true);
 
-        /*
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panel0,new JScrollPane(jta));
-        splitPane.setPreferredSize(new Dimension(300,300));
-        splitPane.setBackground(new Color(150,100,240));
-        splitPane.setResizeWeight(0.5);
-        splitPane.setDividerLocation(splitPane.getSize().width
-                - splitPane.getInsets().right
-                - splitPane.getDividerSize()
-                - 150);
-        splitPane.setDividerSize(0);
-        splitPane.setLeftComponent(jta);
-        splitPane.setRightComponent(new gPanel());
-        pane.add(splitPane);
-*/
+
         //registering an exit close button.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        gp = new gPanel();
 
-        pane.add(gp = new gPanel());
+        pane.add(gp, BorderLayout.CENTER);
 
         //creates the GameMenu
         createGameMenu();
