@@ -74,20 +74,21 @@ public class gPanel extends JPanel {
                     inputFields[row][col] = new JFormattedTextField(
                             new MaskFormatter("#"));
                     inputFields[row][col].setColumns(1);//Sets the number of inputs allowed in a cell
+                    inputFields[row][col].setFocusLostBehavior(javax.swing.JFormattedTextField.COMMIT);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 //Assigning the temp variable to grids
-                inputFields[row][col].setText((temp[row][col]) +"");
+                inputFields[row][col].setValue(temp[row][col]);
 
                 if (Integer.parseInt(inputFields[row][col].getText()) != 0){
-                    inputFields[row][col].setText(valueOf(temp[row][col]));
+                    inputFields[row][col].setValue((temp[row][col]));
                     inputFields[row][col].setEditable(false);
 
                 }
                 else {
 
-                    inputFields[row][col].setText("");
+                    inputFields[row][col].setValue (null);
                     inputFields[row][col].setEditable(true);
                     inputFields[row][col].addActionListener(listener);
 
