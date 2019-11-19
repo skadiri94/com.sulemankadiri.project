@@ -135,7 +135,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     public void actionPerformed(ActionEvent event) {
         String  menuName;
         menuName = event.getActionCommand(); // what's written on the item that was clicked
-        // note the String comparison
+        // note the String comparisonuse to you ali gatie
         if (menuName.equals("Exit")) {
             System.exit(0);
         } // end if
@@ -143,7 +143,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             timer.setText("Menu Item '" + menuName + "' is selected.");
         } // end else
     }
-/*
+
     public void saveProgress(File file) {
         try (final ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file))) {
             (objectOutputStream).writeObject(player);
@@ -157,12 +157,12 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
     public void loadProgress(File file) {
         try (final ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file))) {
-            player = (Player[][]) objectInputStream.readObject();
+            Player[][] player = (Player[][]) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         System.out.println("loaded");
-    }*/
+    }
 
     }
 

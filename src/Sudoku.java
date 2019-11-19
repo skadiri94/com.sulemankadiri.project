@@ -1,10 +1,11 @@
 
+import java.io.Serializable;
 import java.util.*;
 /**
  * The Sudoko Generator
  **/
 
-public class Sudoku {
+public class Sudoku implements Serializable {
 
 
     private int superGrid; //The main 9*9 Grid.
