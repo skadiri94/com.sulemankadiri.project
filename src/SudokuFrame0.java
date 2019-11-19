@@ -1,13 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.concurrent.TimeUnit;
 
 /**First panel for the Sudoku grid and Game menu**/
-public class SudokuFrame0 extends JFrame {
+public class SudokuFrame0 extends JFrame implements ActionListener {
 
     //In Game menu for interact with the game like pause, play, stop and Save
 
-    JMenu gameMenu,playerMenu,exitMenu;
+    JMenu gameMenu,playerMenu;
     JLabel lsudoku;
     JPanel topPanel = new JPanel();
     JPanel rightPanel = new JPanel();
@@ -71,7 +73,7 @@ public class SudokuFrame0 extends JFrame {
         //add game menu to the menu bar
         menuBar.add(gameMenu);
         menuBar.add(playerMenu);
-        menuBar.add(exitMenu);
+        //menuBar.add(exitMenu);
 
         //pane.add(menuBar);
 
@@ -87,7 +89,9 @@ public class SudokuFrame0 extends JFrame {
 
         playerMenu= new JMenu("Player");
 
-        exitMenu = new JMenu("Exit");
+        //Action Listener can't be added to an instance of JMune but with Jemune Item it can
+        //exitMenu = new JMenu("Exit");
+
 
 
 
@@ -102,6 +106,12 @@ public class SudokuFrame0 extends JFrame {
 
 
         item = new JMenuItem("Save Game");
+        item.addActionListener( this );
+
+        gameMenu.add(item);
+
+        item = new JMenuItem("Exit");
+        item.addActionListener( this );
 
         gameMenu.add(item);
 
@@ -119,5 +129,18 @@ public class SudokuFrame0 extends JFrame {
 
     }
 
+    public void actionPerformed(ActionEvent event) {
+        String  menuName;
+        menuName = event.getActionCommand(); // what's written on the item that was clicked
+        // note the String comparison
+        if (menuName.equals("Exit")) {
+            System.exit(0);
+        } // end if
+        else {
+            timer.setText("Menu Item '" + menuName + "' is selected.");
+        } // end else
+    }
+    }
 
-}
+
+

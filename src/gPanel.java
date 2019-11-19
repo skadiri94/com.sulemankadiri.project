@@ -4,11 +4,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.text.ParseException;
 
 import static java.lang.String.valueOf;
 
-public class gPanel extends JPanel {
+public class gPanel extends JPanel implements Serializable {
 
 
     /**
