@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.TimeUnit;
 
 /**First panel for the Sudoku grid and Game menu**/
 public class SudokuFrame0 extends JFrame {
@@ -7,6 +8,11 @@ public class SudokuFrame0 extends JFrame {
     //In Game menu for interact with the game like pause, play, stop and Save
 
     JMenu gameMenu,playerMenu,exitMenu;
+    JLabel lsudoku;
+    JPanel topPanel = new JPanel();
+    JPanel rightPanel = new JPanel();
+    JButton btnSubmit = new JButton("SUBMIT");
+    JTextArea timer = new JTextArea("Time");
     gPanel gp;
 
     /** Driver for the panel Creation**/
@@ -24,8 +30,9 @@ public class SudokuFrame0 extends JFrame {
         //Setting the panel's default properties
         super("Sudoku");
 
-        setSize(400,400);
+        setSize(500,500);
         //setLocation(500,200);
+        setResizable(false);
 
         Container pane = getContentPane();
 
@@ -38,7 +45,22 @@ public class SudokuFrame0 extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         gp = new gPanel();
 
+        topPanel.setLayout(new FlowLayout());
+        lsudoku = new JLabel("SUDOKU");
+        topPanel.add(lsudoku);
+
+        btnSubmit.setSize(40,20 );
+        rightPanel.setLayout(new BorderLayout());
+        timer.setEditable(false);
+        rightPanel.add(timer, BorderLayout.NORTH);
+        rightPanel.add(btnSubmit, BorderLayout.SOUTH);
+
+        pane.add(topPanel, BorderLayout.NORTH);
+        pane.add(rightPanel, BorderLayout.EAST);
+
         pane.add(gp, BorderLayout.CENTER);
+
+
 
         //creates the GameMenu
         createGameMenu();
