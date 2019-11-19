@@ -1,12 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 /**First panel for the Sudoku grid and Game menu**/
-public class SudokuFrame0 extends JFrame {
+public class SudokuFrame0 extends JFrame implements ActionListener, Serializable {
 
     //In Game menu for interact with the game like pause, play, stop and Save
-
-    JMenu gameMenu,playerMenu,exitMenu;
+    private  File fileStorage;
+    private Player player;
+    JMenu gameMenu,playerMenu;
+    JLabel lsudoku;
+    JPanel topPanel = new JPanel();
+    JPanel rightPanel = new JPanel();
+    JButton btnSubmit = new JButton("SUBMIT");
+    JTextArea timer = new JTextArea("Time");
     gPanel gp;
 
     /** Driver for the panel Creation**/
@@ -23,9 +33,11 @@ public class SudokuFrame0 extends JFrame {
 
         //Setting the panel's default properties
         super("Sudoku");
-
-        setSize(400,400);
+        fileStorage = new File("Progress.dat");
+       // player = new Player();
+        setSize(500,500);
         //setLocation(500,200);
+        setResizable(false);
 
         Container pane = getContentPane();
 
@@ -33,24 +45,27 @@ public class SudokuFrame0 extends JFrame {
         JTextArea jta = new JTextArea();
         jta.setEditable(true);
 
-        /*
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,panel0,new JScrollPane(jta));
-        splitPane.setPreferredSize(new Dimension(300,300));
-        splitPane.setBackground(new Color(150,100,240));
-        splitPane.setResizeWeight(0.5);
-        splitPane.setDividerLocation(splitPane.getSize().width
-                - splitPane.getInsets().right
-                - splitPane.getDividerSize()
-                - 150);
-        splitPane.setDividerSize(0);
-        splitPane.setLeftComponent(jta);
-        splitPane.setRightComponent(new gPanel());
-        pane.add(splitPane);
-*/
+
         //registering an exit close button.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        gp = new gPanel();
 
-        pane.add(gp = new gPanel());
+        topPanel.setLayout(new FlowLayout());
+        lsudoku = new JLabel("SUDOKU");
+        topPanel.add(lsudoku);
+
+        btnSubmit.setSize(40,20 );
+        rightPanel.setLayout(new BorderLayout());
+        timer.setEditable(false);
+        rightPanel.add(timer, BorderLayout.NORTH);
+        rightPanel.add(btnSubmit, BorderLayout.SOUTH);
+
+        pane.add(topPanel, BorderLayout.NORTH);
+        pane.add(rightPanel, BorderLayout.EAST);
+
+        pane.add(gp, BorderLayout.CENTER);
+
+
 
         //creates the GameMenu
         createGameMenu();
@@ -61,7 +76,7 @@ public class SudokuFrame0 extends JFrame {
         //add game menu to the menu bar
         menuBar.add(gameMenu);
         menuBar.add(playerMenu);
-        menuBar.add(exitMenu);
+        //menuBar.add(exitMenu);
 
         //pane.add(menuBar);
 
@@ -77,7 +92,9 @@ public class SudokuFrame0 extends JFrame {
 
         playerMenu= new JMenu("Player");
 
-        exitMenu = new JMenu("Exit");
+        //Action Listener can't be added to an instance of JMune but with Jemune Item it can
+        //exitMenu = new JMenu("Exit");
+
 
 
 
@@ -92,6 +109,12 @@ public class SudokuFrame0 extends JFrame {
 
 
         item = new JMenuItem("Save Game");
+        item.addActionListener( this );
+
+        gameMenu.add(item);
+
+        item = new JMenuItem("Exit");
+        item.addActionListener( this );
 
         gameMenu.add(item);
 
@@ -109,5 +132,39 @@ public class SudokuFrame0 extends JFrame {
 
     }
 
+    public void actionPerformed(ActionEvent event) {
+        String  menuName;
+        menuName = event.getActionCommand(); // what's written on the item that was clicked
+        // note the String comparison
+        if (menuName.equals("Exit")) {
+            System.exit(0);
+        } // end if
+        else {
+            timer.setText("Menu Item '" + menuName + "' is selected.");
+        } // end else
+    }
+/*
+    public void saveProgress(File file) {
+        try (final ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file))) {
+            (objectOutputStream).writeObject(player);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-}
+        System.out.println("saved");
+
+    }
+
+    public void loadProgress(File file) {
+        try (final ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file))) {
+            player = (Player[][]) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println("loaded");
+    }*/
+
+    }
+
+
+

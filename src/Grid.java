@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 
+import static java.awt.Transparency.TRANSLUCENT;
 
 
 /**Creating the grid game panel that also implements action listener that takes in the
@@ -23,6 +24,7 @@ public  class Grid extends JFrame {
 
 
 
+
 	public Grid() {
 		super("Grid");
 		setSize(400, 400);
@@ -31,6 +33,9 @@ public  class Grid extends JFrame {
 		gPanel.setLayout(new GridLayout(9, 9));
 		gPanel.setSize(300, 300);
 		btnCheck.addActionListener(new BtnCheck());
+		final Container c = getContentPane();
+		c.setLayout(new GridBagLayout());
+		JPanel pl = new GridPanel();
 
 
 		for (int i = 0; i < 9; i++) {
@@ -62,6 +67,7 @@ public  class Grid extends JFrame {
 					}
 				});
 				gPanel.add(textFields[i][j]);
+				pl.add(textFields[i][j]);
 
 
 			}
@@ -78,8 +84,26 @@ public  class Grid extends JFrame {
 		overallP.add(gPanel, BorderLayout.CENTER);
 		overallP.add(eastPanel, BorderLayout.EAST);
 		add(overallP);
+		GridBagConstraints con = new GridBagConstraints();
+		add(pl, con);
+		con.gridx = 1;
+		con.gridy = 0;
+		con.gridwidth = 2;
 		setVisible(true);
 
+	}
+
+	public class GridPanel extends JPanel {
+		public void paint(Graphics g){
+			super.paint(g);
+			int w = getSize().width;
+			int h = getSize().height;
+
+			g.setColor(Color.black);
+			g.drawRect(0,0,w-1,h-1);
+			g.drawLine(w/2,0,w/2,h);
+			g.drawLine(0,h/2,w,h/2);
+		}
 	}
 
 	/**
