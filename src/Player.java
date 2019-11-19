@@ -5,6 +5,10 @@ public class Player implements Serializable {
     private String name;
     private int score;
 
+    public Player(){
+
+    }
+
     public Player(String name){
         setName(name);
         setScore(score);

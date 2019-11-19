@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
@@ -43,9 +44,18 @@ public class gPanel extends JPanel implements Serializable {
 
     public gPanel() {
         setCellSize(40);
+       // setBackground(Color.black);
         setPanelWidth(getCellSize() * inputFields.length);
         setPanelHeight(getCellSize() * inputFields.length);
-        setLayout(new GridLayout(inputFields.length, inputFields.length));
+        GridLayout gl= new GridLayout(inputFields.length, inputFields.length);
+
+       // gl.setHgap(Integer.parseInt("5"));
+        //Set up the vertical gap value
+        //gl.setVgap(Integer.parseInt("5"));
+
+        //setLayout(new GridLayout(inputFields.length, inputFields.length));
+       setLayout(gl);
+
         Sudoku puzzle = new Sudoku();
         puzzle.fillSudoku();//Generates complete puzzle.
         //creates a variable to store final puzzle
@@ -56,7 +66,7 @@ public class gPanel extends JPanel implements Serializable {
         //System.out.print("Hello Man");
         //System.out.print(puzzle.toString());
         temp = geetSudoku(finalPuzzle);
-        reemoveMNum(20, temp);//saving the unsolved variable to temp
+        reemoveMNum(40, temp);//saving the unsolved variable to temp
         /** Allocating a listener to all the input Fields**/
 
         InputListener listener = new InputListener();
@@ -77,6 +87,7 @@ public class gPanel extends JPanel implements Serializable {
                             new MaskFormatter("#"));
                     inputFields[row][col].setColumns(1);//Sets the number of inputs allowed in a cell
                     inputFields[row][col].setFocusLostBehavior( JFormattedTextField.COMMIT );
+
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -99,6 +110,21 @@ public class gPanel extends JPanel implements Serializable {
 
                 inputFields[row][col].setHorizontalAlignment(JFormattedTextField.CENTER);//Aligns the input to the center
                 inputFields[row][col].setFont(FONT_SIZE);
+                //inputFields[row][col].se
+               // inputFields[row][col].setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
+                if(col == 3 || col == 6 )
+                     inputFields[row][col].setBorder(BorderFactory.createMatteBorder(1, 3, 0, 0,new Color(100, 150, 200)));
+
+                if(row == 3 || row == 6)
+                    inputFields[row][col].setBorder(BorderFactory.createMatteBorder(3, 1, 0, 0, new Color(100, 150, 200)));
+
+
+                if((row ==3 && col ==3) || (row ==6 && col ==6) || (row ==6 && col ==3) || (row ==3 && col ==6))
+                    inputFields[row][col].setBorder(BorderFactory.createMatteBorder(3, 3, 0, 0, new Color(100, 150, 200)));
+
+                if(col == 0 || col == 0 )
+                    inputFields[row][col].setBorder(BorderFactory.createMatteBorder(1, 3, 0, 0,new Color(100, 150, 200)));
+
 
                 add(inputFields[row][col]);
             }
@@ -231,6 +257,15 @@ public class gPanel extends JPanel implements Serializable {
         return num;
     }
 
+    /** This method proved to be a challinging as my program always crashes once in every 3 or 5 runs giving an Out of
+     * @IndexOutofbounds Exception because the cellIndex that was being generated randomly was between 1 and 81 and for
+     *It seldom generates 81 and when this happens and for i it divides it by 9 to get the cellIndex and and being an array of
+     * size 9 the index ends at 8 hence i get an outOfbound exception and to fix this i simply subtract 1 from i when 81 is
+     * randomly generated.
+     * @param mNum
+     * @param puzzle
+     */
+
     public void reemoveMNum(int mNum, int[][] puzzle)
     {
         int count = mNum;
@@ -245,10 +280,16 @@ public class gPanel extends JPanel implements Serializable {
             int i = (cellIndex/9);
             int j = cellIndex%9;
 
-            if (j != 0)
-                j = j - 1;
+            if(i==9)
+                i--;
 
-            // System.out.println(i+" "+j);
+            //if(j==9)
+            //    j--;
+
+            //if (j != 0)
+            //    j = j - 1;
+
+            System.out.println(i+" "+j);
             if (puzzle[i][j] != 0)
             {
                 count--;
@@ -264,87 +305,6 @@ public class gPanel extends JPanel implements Serializable {
          * the problem.
 
 
-        public int[][] getDigits() {
-            //btnCheck.addActionListener(e ->
-            int[][] allNums = new int[9][9];
 
-            for (int i = 0; i < 9; i++)
-                for (int j = 0; j < 9; j++)
-                    allNums[i][j] = Integer.parseInt(textFields[i][j].getText());
-            System.out.println(allNums.toString());
-            return allNums;
-
-            //});
-        }
-
-        public void fillGrid(JTextField[][] textFields) {
-            int[][] digits = new int[9][9];
-
-            for (int i = 0; i < digits.length; i++) {
-                for (int j = 0; j < digits.length; j++) {
-                    //while(!textFields[i][j].getText().equals("")) {
-                    //digits[i][j] = (int) (Math.random() * ((9 - 1) + 1)) + 1;
-                    digits[i][j] = 0;
-                    //digits[i][j] = Integer.parseInt(textFields[i][j].getText());
-                    textFields[i][j].setText(String.valueOf(digits[i][j]));
-                    if(Integer.parseInt(textFields[i][j].getText()) == 0){
-                        textFields[i][j].setText(String.valueOf(""));
-                    }
-
-                }
-					/*do{
-						textFields[i][j].setText(String.valueOf(digits[i][j]));
-					}while(textFields != null);
-                //digits[i][j] = (int) (Math.random() * ((9 - 1) + 1)) + 1;
-
-
-            }
-        }
-        // Remove the K no. of digits to
-        // complete game
-        public void addSDigits()
-        {
-
-
-            int count = 20;
-            while (count != 0)
-            {
-                int cellId = randomGenerator(9*9);
-                System.out.print(cellId);
-
-                // System.out.println(cellId);
-                // extract coordinates i  and j
-                int i = (9-cellId);
-                int j = cellId%9;
-                if (j == 0)
-                    j = j + 1;
-
-                System.out.println(i+" "+j);
-                if (Integer.parseInt(textFields[i][j].getText()) == 0)
-                {
-                    count--;
-                    int digits = (int) (Math.random() * ((9 - 1) + 1)) + 1;
-                    textFields[i][j].setText(String.valueOf(digits));
-                }
-            }
-
-        }
-
-        int randomGenerator(int num)
-        {
-            return (int) Math.floor((Math.random()*num+1));
-        }
-
-
-        private class BtnCheck implements ActionListener{
-            public void actionPerformed(ActionEvent e) {
-                fillGrid(textFields);
-                addSDigits();
-                System.out.println("Welcome");
-            } // end actionPerformed
-        } // end CancelButtonHandler inner class
-
-
-    }
 
 **/

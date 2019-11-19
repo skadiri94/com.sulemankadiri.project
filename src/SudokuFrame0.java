@@ -2,13 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.concurrent.TimeUnit;
 
 /**First panel for the Sudoku grid and Game menu**/
-public class SudokuFrame0 extends JFrame implements ActionListener {
+public class SudokuFrame0 extends JFrame implements ActionListener, Serializable {
 
     //In Game menu for interact with the game like pause, play, stop and Save
-
+    private  File fileStorage;
+    private Player player;
     JMenu gameMenu,playerMenu;
     JLabel lsudoku;
     JPanel topPanel = new JPanel();
@@ -31,7 +33,8 @@ public class SudokuFrame0 extends JFrame implements ActionListener {
 
         //Setting the panel's default properties
         super("Sudoku");
-
+        fileStorage = new File("Progress.dat");
+       // player = new Player();
         setSize(500,500);
         //setLocation(500,200);
         setResizable(false);
@@ -140,6 +143,27 @@ public class SudokuFrame0 extends JFrame implements ActionListener {
             timer.setText("Menu Item '" + menuName + "' is selected.");
         } // end else
     }
+/*
+    public void saveProgress(File file) {
+        try (final ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file))) {
+            (objectOutputStream).writeObject(player);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("saved");
+
+    }
+
+    public void loadProgress(File file) {
+        try (final ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file))) {
+            player = (Player[][]) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println("loaded");
+    }*/
+
     }
 
 
