@@ -11,13 +11,15 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     //In Game menu for interact with the game like pause, play, stop and Save
     private  File fileStorage;
     private Player player;
+    private int level;
     JMenu gameMenu,playerMenu;
-    JLabel lsudoku;
-    JPanel topPanel = new JPanel();
-    JPanel rightPanel = new JPanel();
-    JButton btnSubmit = new JButton("SUBMIT");
+    JLabel lsudoku,gTitle,pNLabel;
+    JPanel topPanel,rightPanel,index,finalPanel;
+    JButton btnSubmit,btnPlay,levelB,levelI,levelM;
     JTextArea timer = new JTextArea("Time");
+    JTextField pName;
     gPanel gp;
+
 
     /** Driver for the panel Creation**/
 
@@ -41,29 +43,17 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
         Container pane = getContentPane();
 
-        pane.setPreferredSize(new Dimension(360, 360));
-        JTextArea jta = new JTextArea();
-        jta.setEditable(true);
-
-
         //registering an exit close button.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        gp = new gPanel();
 
-        topPanel.setLayout(new FlowLayout());
-        lsudoku = new JLabel("SUDOKU");
-        topPanel.add(lsudoku);
+       //Creating the Index Panel for player registration and game level select
 
-        btnSubmit.setSize(40,20 );
-        rightPanel.setLayout(new BorderLayout());
-        timer.setEditable(false);
-        rightPanel.add(timer, BorderLayout.NORTH);
-        rightPanel.add(btnSubmit, BorderLayout.SOUTH);
+        createIndex();
+        pane.add(index);
 
-        pane.add(topPanel, BorderLayout.NORTH);
-        pane.add(rightPanel, BorderLayout.EAST);
 
-        pane.add(gp, BorderLayout.CENTER);
+
+
 
 
 
@@ -78,7 +68,6 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         menuBar.add(playerMenu);
         //menuBar.add(exitMenu);
 
-        //pane.add(menuBar);
 
 
 
@@ -132,17 +121,32 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
     }
 
+
     public void actionPerformed(ActionEvent event) {
         String  menuName;
         menuName = event.getActionCommand(); // what's written on the item that was clicked
-        // note the String comparisonuse to you ali gatie
         if (menuName.equals("Exit")) {
             System.exit(0);
         } // end if
         else {
-            timer.setText("Menu Item '" + menuName + "' is selected.");
+           // timer.setText("Menu Item '" + menuName + "' is selected.");
         } // end else
-    }
+        if(event.getSource() == btnPlay){
+            if(level != 0) {
+                createGamePanel(level);
+                this.setContentPane(finalPanel);
+                this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
+                this.revalidate();
+            }
+            else
+                JOptionPane.showMessageDialog(null,"Please Select level of Difficulty" );
+            }
+
+
+
+
+        }
+
 
     public void saveProgress(File file) {
         try (final ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file))) {
@@ -162,6 +166,100 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             e.printStackTrace();
         }
         System.out.println("loaded");
+    }
+
+    private void createGamePanel(int level){
+        finalPanel = new JPanel();
+        finalPanel.setSize(this.getSize());
+        finalPanel.setLayout(new BorderLayout());
+        JTextArea jta = new JTextArea();
+        jta.setEditable(true);
+
+        gp = new gPanel(level);
+
+        topPanel = new JPanel();
+        rightPanel = new JPanel();
+
+        topPanel.setLayout(new FlowLayout());
+        lsudoku = new JLabel("SUDOKU");
+        topPanel.add(lsudoku);
+
+        btnSubmit = new JButton("SUBMIT");
+        btnSubmit.setSize(40,20 );
+        rightPanel.setLayout(new BorderLayout());
+        timer.setEditable(false);
+        // String tm ="";
+
+        //runTimer(tm);
+        //timer.setText(tm);
+
+        rightPanel.add(timer, BorderLayout.NORTH);
+        rightPanel.add(btnSubmit, BorderLayout.SOUTH);
+
+        finalPanel.add(topPanel, BorderLayout.NORTH);
+        finalPanel.add(rightPanel, BorderLayout.EAST);
+
+        finalPanel.add(gp, BorderLayout.CENTER);
+
+
+
+    }
+
+    public void createIndex(){
+        // creating a new GroupLayout object and associate it with the panel:
+        index = new JPanel();
+        index.setLayout(new BoxLayout(index, BoxLayout.PAGE_AXIS));
+
+        pNLabel = new JLabel("Player Name:");
+        pName = new JTextField(10);
+        levelB = new JButton("Beginner");
+        levelI = new JButton("Intermediate");
+        levelM = new JButton("Master");
+        btnPlay = new JButton("Play");
+        levelB.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        //defines the groups and add the components
+
+
+
+
+
+
+        pName.addActionListener(this);
+        levelB.addActionListener(e -> {level =10;});
+        levelI.addActionListener(e -> {level =30;});
+        levelM.addActionListener(e -> {level =65;});
+        btnPlay.addActionListener(this);
+
+
+        index.add(pNLabel);
+        index.add(pName);
+        index.add(levelB);
+        index.add(levelI);
+        index.add(levelM);
+        index.add(btnPlay);
+    }
+
+    public void runTimer(String timer){
+        timer ="";
+        int i = 86400;
+        int j = 00;
+        int k = 00;
+        while (i>0){
+            timer = "Time: "+j +":"+k;
+            //System.out.println(timer);
+            try {
+                i--;
+                k++;
+                if(k==60) {
+                    j++;
+                    k=0;
+                }
+                Thread.sleep(1000L);    // 1000L = 1000ms = 1 second
+            }
+            catch (InterruptedException e) {
+                //I don't think you need to do anything for your particular problem
+            }
+        }
     }
 
     }

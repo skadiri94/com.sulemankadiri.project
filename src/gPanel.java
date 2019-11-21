@@ -43,7 +43,7 @@ public class gPanel extends JPanel implements Serializable {
 
 */
 
-    public gPanel() {
+    public gPanel(int level) {
         setCellSize(40);
         // setBackground(BORDER);
         setPanelWidth(getCellSize() * inputFields.length);
@@ -68,11 +68,8 @@ public class gPanel extends JPanel implements Serializable {
         //System.out.print("Hello Man");
         //System.out.print(puzzle.toString());
         temp = geetSudoku(finalPuzzle);
-        reemoveMNum(40, temp);//saving the unsolved variable to temp
-        /** Allocating a listener to all the input Fields**/
+        reemoveMNum(level, temp);//saving the unsolved variable to temp
 
-        //InputListener listener = new InputListener();
-        //Constructing the inputCells 9*9
         paintGrid();
         for (int i = 0; i < inputFields.length; i++) {
             for (int j = 0; j < inputFields[i].length; ++j) {
