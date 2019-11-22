@@ -161,7 +161,7 @@ public class gPanel extends JPanel implements Serializable {
         for(int i=0;i<puzzle.length;i++){
             for(int j=0;j<puzzle[i].length;j++){
                // puzzle[i][j].getValue();
-                if(puzzle[i][j].getText() == null)
+                if(puzzle[i][j].getValue() == null)
                     puzzle[i][j].setValue(0);
 
                 num[i][j] = Integer.parseInt(puzzle[i][j].getText());
