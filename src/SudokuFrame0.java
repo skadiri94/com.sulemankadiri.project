@@ -16,9 +16,12 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     JLabel lsudoku,gTitle,pNLabel;
     JPanel topPanel,rightPanel,index,finalPanel;
     JButton btnSubmit,btnPlay,levelB,levelI,levelM;
-    JTextArea timer = new JTextArea("Time");
+    //JTextArea timer = new JTextArea("Time");
     JTextField pName;
     gPanel gp;
+    JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
+    private int [][] finalPuzzle = new int[9][9];
+    private int [][] temp = new int[9][9];
 
 
     /** Driver for the panel Creation**/
@@ -185,16 +188,23 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         topPanel.add(lsudoku);
 
         btnSubmit = new JButton("SUBMIT");
+        inputFields = new JFormattedTextField[9][9];
+        btnSubmit.addActionListener(e -> {gp.getSudoku(inputFields);
+                finalPuzzle=gp.getFinalPuzzle();
+                temp = gp.getSudoku(inputFields);
+            gp.resultCheck(finalPuzzle,temp);
+        });
         btnSubmit.setSize(40,20 );
-        rightPanel.setLayout(new BorderLayout());
-        timer.setEditable(false);
+        rightPanel.setLayout(new FlowLayout());
+        //timer.setEditable(false);
         // String tm ="";
 
         //runTimer(tm);
         //timer.setText(tm);
 
-        rightPanel.add(timer, BorderLayout.NORTH);
+        //rightPanel.add(timer, BorderLayout.NORTH);
         rightPanel.add(btnSubmit, BorderLayout.SOUTH);
+        rightPanel.add(btnSubmit, new FlowLayout());
 
         finalPanel.add(topPanel, BorderLayout.NORTH);
         finalPanel.add(rightPanel, BorderLayout.EAST);
@@ -208,7 +218,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     public void createIndex(){
         // creating a new GroupLayout object and associate it with the panel:
         index = new JPanel();
-        index.setLayout(new BoxLayout(index, BoxLayout.PAGE_AXIS));
+        index.setLayout(new FlowLayout());
 
         pNLabel = new JLabel("Player Name:");
         pName = new JTextField(10);
@@ -239,28 +249,6 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         index.add(btnPlay);
     }
 
-    public void runTimer(String timer){
-        timer ="";
-        int i = 86400;
-        int j = 00;
-        int k = 00;
-        while (i>0){
-            timer = "Time: "+j +":"+k;
-            //System.out.println(timer);
-            try {
-                i--;
-                k++;
-                if(k==60) {
-                    j++;
-                    k=0;
-                }
-                Thread.sleep(1000L);    // 1000L = 1000ms = 1 second
-            }
-            catch (InterruptedException e) {
-                //I don't think you need to do anything for your particular problem
-            }
-        }
-    }
 
     }
 

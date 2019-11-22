@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.Arrays;
 
 import static java.lang.String.valueOf;
 
@@ -62,13 +63,17 @@ public class gPanel extends JPanel implements Serializable {
         puzzle.fillSudoku();//Generates complete puzzle.
         //creates a variable to store final puzzle
         finalPuzzle = puzzle.getPuzzle();
-        System.out.print(tooString(finalPuzzle));
+        System.out.print(toString(finalPuzzle));
         ///puzzle.removeMNum(20);//Removing missing digits to create an unsolved puzzle
         //puzzle.removeMNum(40);
         //System.out.print("Hello Man");
         //System.out.print(puzzle.toString());
-        temp = geetSudoku(finalPuzzle);
+        temp = getSudoku(finalPuzzle);
         reemoveMNum(level, temp);//saving the unsolved variable to temp
+
+
+
+
 
         paintGrid();
         for (int i = 0; i < inputFields.length; i++) {
@@ -77,7 +82,9 @@ public class gPanel extends JPanel implements Serializable {
             }
          }
 
+
         setVisible(true);
+
 
     }
 
@@ -105,7 +112,9 @@ public class gPanel extends JPanel implements Serializable {
         return panelHeight;
     }
 
-
+    public int[][] getFinalPuzzle() {
+        return finalPuzzle;
+    }
 
     public boolean isMatch(int [][] puzzle, int num){
 
@@ -118,7 +127,7 @@ public class gPanel extends JPanel implements Serializable {
 
     }
 
-    public String tooString(int [][] finalPuzzle) {
+    public String toString(int [][] finalPuzzle) {
         String digits = "";
         for (int i = 0; i<finalPuzzle.length; i++)
         {
@@ -132,7 +141,7 @@ public class gPanel extends JPanel implements Serializable {
 
         return digits;
     }
-    public int[][] geetSudoku(int [][] puzzle){
+    public int[][] getSudoku(int [][] puzzle){
         int [][] num = new int[9][9];
 
         for(int i=0;i<puzzle.length;i++){
@@ -143,9 +152,28 @@ public class gPanel extends JPanel implements Serializable {
 
         return num;
     }
+    /** Method overload returns and a 2 dimension integer arrays
+     *@param puzzle is  The puzzle inputed by use which will be  to be displayed */
+
+    public int[][] getSudoku(JFormattedTextField [][] puzzle){
+        int [][] num = new int[9][9];
+
+        for(int i=0;i<puzzle.length;i++){
+            for(int j=0;j<puzzle[i].length;j++){
+               // puzzle[i][j].getValue();
+                if(puzzle[i][j].getText() == null)
+                    puzzle[i][j].setValue(0);
+
+                num[i][j] = Integer.parseInt(puzzle[i][j].getText());
+            }
+        }
+
+        return num;
+    }
 
 
-/**This Method defines and create the Grid cells before they are added to the panel
+
+    /**This Method defines and create the Grid cells before they are added to the panel
  * it makes the constructor more tidy as this will require less lines of code going
  * into the constructor.
  * **/
@@ -301,4 +329,60 @@ public class gPanel extends JPanel implements Serializable {
             }
         }
     }
+
+
+    public boolean isEqual( int[][] finalPuzzle, int[][] temp) {
+
+        if (finalPuzzle == null) {
+
+            return (temp == null);
+
+        }
+
+        if (temp == null) {
+
+            return false;
+
+        }
+
+        if (finalPuzzle.length != temp.length) {
+
+            return false;
+
+        }
+
+        for (int i = 0; i < finalPuzzle.length; i++) {
+
+            if (!Arrays.equals(finalPuzzle[i], temp[i])) {
+
+                return false;
+
+            }
+
+        }
+
+        return true;
+    }
+
+    public void resultCheck(int [][] finalpuzzle, int [][] temp2){
+        String txt ="";
+        //temp2 = getSudoku(inputFields);
+       // System.out.print("here is the Mth" + toString(temp2));
+
+        if( isEqual(finalpuzzle,temp2))
+            txt = "Puzzle Completed!";
+
+        else
+            txt = "Puzzle not Completed or Incorrect \n Please Try again!";
+
+        showMessage(txt);
+
+    }
+
+    /** displays a String in a message dialog
+     *@param txt The string to be displayed */
+    public void showMessage (String txt){
+        JOptionPane.showMessageDialog(null,txt);
+    }
+
 }
