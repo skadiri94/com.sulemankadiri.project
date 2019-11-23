@@ -5,42 +5,38 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.concurrent.TimeUnit;
 
-/**First panel for the Sudoku grid and Game menu**/
-public class SudokuFrame0 extends JFrame implements ActionListener, Serializable {
+/**
+ * First panel for the Sudoku grid and Game menu
+ **/
+public class SudokuFrame0<Static> extends JFrame implements ActionListener, Serializable {
 
-    //In Game menu for interact with the game like pause, play, stop and Save
-    private  File fileStorage;
-    private Player player;
-    private int level;
-    JMenu gameMenu,playerMenu;
-    JLabel lsudoku,gTitle,pNLabel;
-    JPanel topPanel,rightPanel,index,finalPanel;
-    JButton btnSubmit,btnPlay,levelB,levelI,levelM;
+    JMenu gameMenu, playerMenu;
+    JLabel lsudoku, gTitle, pNLabel;
+    JPanel topPanel, rightPanel, index, finalPanel;
+    JButton btnSubmit, btnPlay, levelB, levelI, levelM;
     //JTextArea timer = new JTextArea("Time");
     JTextField pName;
     gPanel gp;
     JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
-    private int [][] finalPuzzle = new int[9][9];
-    private int [][] temp = new int[9][9];
+    //In Game menu for interact with the game like pause, play, stop and Save
+    private File fileStorage;
+    private Player player;
+    private int level;
+    private int[][] finalPuzzle = new int[9][9];
+    private int[][] temp = new int[9][9];
 
 
-    /** Driver for the panel Creation**/
-
-    public static void main(String[] args) {
-        SudokuFrame0 sPanel = new SudokuFrame0();
-        sPanel.setVisible(true);
-
-    }
-
-    /** a no argument constructor that creates the menu and populate them **/
+    /**
+     * a no argument constructor that creates the menu and populate them
+     **/
 
     public SudokuFrame0() {
 
         //Setting the panel's default properties
         super("Sudoku");
         fileStorage = new File("Progress.dat");
-       // player = new Player();
-        setSize(500,500);
+        // player = new Player();
+        setSize(500, 500);
         //setLocation(500,200);
         setResizable(false);
 
@@ -49,15 +45,10 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         //registering an exit close button.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-       //Creating the Index Panel for player registration and game level select
+        //Creating the Index Panel for player registration and game level select
 
         createIndex();
         pane.add(index);
-
-
-
-
-
 
 
         //creates the GameMenu
@@ -72,22 +63,30 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         //menuBar.add(exitMenu);
 
 
+    }
 
+    /**
+     * Driver for the panel Creation
+     **/
+
+    public static void main(String[] args) {
+        SudokuFrame0 sPanel = new SudokuFrame0();
+        sPanel.setVisible(true);
 
     }
 
-    /**Creating and populating the file menu**/
-    private void createGameMenu(){
+    /**
+     * Creating and populating the file menu
+     **/
+    private void createGameMenu() {
         //Create the menu
 
         gameMenu = new JMenu("Menu");
 
-        playerMenu= new JMenu("Player");
+        playerMenu = new JMenu("Player");
 
         //Action Listener can't be added to an instance of JMune but with Jemune Item it can
         //exitMenu = new JMenu("Exit");
-
-
 
 
         //declaring a Menu Item (re-usable)
@@ -95,18 +94,18 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
         gameMenu.add(item);
 
-         item = new JMenuItem("Load Game");
+        item = new JMenuItem("Load Game");
 
         gameMenu.add(item);
 
 
         item = new JMenuItem("Save Game");
-        item.addActionListener( this );
+        item.addActionListener(this);
 
         gameMenu.add(item);
 
         item = new JMenuItem("Exit");
-        item.addActionListener( this );
+        item.addActionListener(this);
 
         gameMenu.add(item);
 
@@ -126,29 +125,30 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
 
     public void actionPerformed(ActionEvent event) {
-        String  menuName;
+        String menuName;
         menuName = event.getActionCommand(); // what's written on the item that was clicked
         if (menuName.equals("Exit")) {
             System.exit(0);
         } // end if
         else {
-           // timer.setText("Menu Item '" + menuName + "' is selected.");
+            // timer.setText("Menu Item '" + menuName + "' is selected.");
         } // end else
-        if(event.getSource() == btnPlay){
-            if(level != 0) {
-                createGamePanel(level);
-                this.setContentPane(finalPanel);
-                this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
-                this.revalidate();
-            }
-            else
-                JOptionPane.showMessageDialog(null,"Please Select level of Difficulty" );
-            }
-
-
-
+        if (event.getSource() == btnPlay) {
+            goToGame();
 
         }
+
+    }
+
+    public void goToGame() {
+        if (level != 0) {
+            createGamePanel(level);
+            this.setContentPane(finalPanel);
+            this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
+            this.revalidate();
+        } else
+            JOptionPane.showMessageDialog(null, "Please Select level of Difficulty");
+    }
 
 
     public void saveProgress(File file) {
@@ -171,7 +171,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         System.out.println("loaded");
     }
 
-    private void createGamePanel(int level){
+    private void createGamePanel(int level) {
         finalPanel = new JPanel();
         finalPanel.setSize(this.getSize());
         finalPanel.setLayout(new BorderLayout());
@@ -189,13 +189,28 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
         btnSubmit = new JButton("SUBMIT");
         inputFields = new JFormattedTextField[9][9];
-        btnSubmit.addActionListener(e -> {gp.getSudoku();
-                finalPuzzle=gp.getFinalPuzzle();
-                temp = gp.getSudoku();
-            gp.resultCheck(finalPuzzle,temp);
-            System.out.print(gp.toooString(temp));
+        btnSubmit.addActionListener(e -> {
+            gp.getSudoku();
+            finalPuzzle = gp.getFinalPuzzle();
+            temp = gp.getSudoku();
+            String txt = "";
+            if (!gp.resultCheck(finalPuzzle, temp).equals("Win!")) {
+                txt = "Puzzle Not Complete or Incorrect Try again!";
+                gPanel.showMessage(txt);
+            } else {
+                txt = "Puzzle Complete!";
+                gPanel.showMessage(txt);
+                createIndex();
+                this.setContentPane(index);
+                this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
+                this.revalidate();
+            }
+
+            System.out.print(gp.toString(temp));
+            //gp.genPuzzle(level);
+
         });
-        btnSubmit.setSize(40,20 );
+        btnSubmit.setSize(40, 20);
         rightPanel.setLayout(new FlowLayout());
         //timer.setEditable(false);
         // String tm ="";
@@ -213,10 +228,9 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         finalPanel.add(gp, BorderLayout.CENTER);
 
 
-
     }
 
-    public void createIndex(){
+    public void createIndex() {
         // creating a new GroupLayout object and associate it with the panel:
         index = new JPanel();
         index.setLayout(new FlowLayout());
@@ -231,14 +245,16 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         //defines the groups and add the components
 
 
-
-
-
-
         pName.addActionListener(this);
-        levelB.addActionListener(e -> {level =10;});
-        levelI.addActionListener(e -> {level =30;});
-        levelM.addActionListener(e -> {level =65;});
+        levelB.addActionListener(e -> {
+            level = 10;
+        });
+        levelI.addActionListener(e -> {
+            level = 30;
+        });
+        levelM.addActionListener(e -> {
+            level = 65;
+        });
         btnPlay.addActionListener(this);
 
 
@@ -251,7 +267,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     }
 
 
-    }
+}
 
 
 
