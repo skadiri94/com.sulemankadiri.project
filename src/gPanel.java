@@ -63,7 +63,7 @@ public class gPanel extends JPanel implements Serializable {
         puzzle.fillSudoku();//Generates complete puzzle.
         //creates a variable to store final puzzle
         finalPuzzle = puzzle.getPuzzle();
-        System.out.print(toString(finalPuzzle));
+        System.out.print(toooString(finalPuzzle));
         ///puzzle.removeMNum(20);//Removing missing digits to create an unsolved puzzle
         //puzzle.removeMNum(40);
         //System.out.print("Hello Man");
@@ -127,7 +127,7 @@ public class gPanel extends JPanel implements Serializable {
 
     }
 
-    public String toString(int [][] finalPuzzle) {
+    public  String toooString(int [][] finalPuzzle) {
         String digits = "";
         for (int i = 0; i<finalPuzzle.length; i++)
         {
@@ -157,14 +157,36 @@ public class gPanel extends JPanel implements Serializable {
 
     public int[][] getSudoku(JFormattedTextField [][] puzzle){
         int [][] num = new int[9][9];
+        int numInt;
 
         for(int i=0;i<puzzle.length;i++){
             for(int j=0;j<puzzle[i].length;j++){
                // puzzle[i][j].getValue();
-                if(puzzle[i][j].getValue() == null)
-                    puzzle[i][j].setValue(0);
-
+                if(puzzle[i][j].getValue() == "") {
+                    numInt = 0;
+                    num[i][j] = numInt;
+                    System.out.print(puzzle[i][j].getValue());
+                }
                 num[i][j] = Integer.parseInt(puzzle[i][j].getText());
+
+            }
+        }
+
+        return num;
+    }
+
+    public int[][] getSudoku(){
+        int [][] num = new int[9][9];
+
+        for(int i=0;i<inputFields.length;i++){
+            for(int j=0;j<inputFields[i].length;j++){
+                // puzzle[i][j].getValue();
+               // int numTemp = Integer.parseInt(inputFields[i][j].getText());
+                if(inputFields[i][j].getValue() == null) {
+                    inputFields[i][j].setValue(0);
+                    System.out.print(inputFields[i][j].getValue());
+                }
+                num[i][j] = Integer.parseInt(inputFields[i][j].getText());
             }
         }
 

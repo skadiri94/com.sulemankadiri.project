@@ -189,10 +189,11 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
         btnSubmit = new JButton("SUBMIT");
         inputFields = new JFormattedTextField[9][9];
-        btnSubmit.addActionListener(e -> {gp.getSudoku(inputFields);
+        btnSubmit.addActionListener(e -> {gp.getSudoku();
                 finalPuzzle=gp.getFinalPuzzle();
-                temp = gp.getSudoku(inputFields);
+                temp = gp.getSudoku();
             gp.resultCheck(finalPuzzle,temp);
+            System.out.print(gp.toooString(temp));
         });
         btnSubmit.setSize(40,20 );
         rightPanel.setLayout(new FlowLayout());
