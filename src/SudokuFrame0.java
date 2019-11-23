@@ -11,14 +11,7 @@ import java.util.ArrayList;
  **/
 public class SudokuFrame0 extends JFrame implements ActionListener, Serializable {
 
-    private File fileStorage;
-    private ArrayList<Player> player = new ArrayList<>();
-    private Player cplayer;
-    private int level;
-    private int[][] finalPuzzle = new int[9][9];
-    private int[][] temp = new int[9][9];
     JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
-
     //In Game menu for interact with the game like pause, play, stop and Save
     JMenu gameMenu, playerMenu;
     JLabel lsudoku, lSelect, pNLabel;
@@ -26,7 +19,12 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     JButton btnSubmit, btnPlay, levelB, levelI, levelM, createP, loadP;
     JTextField pName;
     gPanel gp;
-
+    private File fileStorage;
+    private ArrayList<Player> player = new ArrayList<>();
+    private Player cplayer;
+    private int level;
+    private int[][] finalPuzzle = new int[9][9];
+    private int[][] temp = new int[9][9];
 
 
     /**
@@ -130,13 +128,11 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         else if (menuName.equals("Record")) {
             String txt = cplayer.toString();
             gPanel.showMessage(txt);
-            System.exit(0);
         } // end if
         else if (event.getSource() == btnPlay) {
             goToGame();
 
-        }
-        else {
+        } else {
             // timer.setText("Menu Item '" + menuName + "' is selected.");
         } // end else
 
@@ -144,18 +140,22 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     }
 
     public void goToGame() {
-        if (level != 0) {
-            createGamePanel(level);
-            this.setContentPane(finalPanel);
-            this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
-            this.revalidate();
+        if (cplayer != null) {
+            if (level != 0) {
+                createGamePanel(level);
+                this.setContentPane(finalPanel);
+                this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
+                this.revalidate();
+            } else
+                JOptionPane.showMessageDialog(null, "Please Select level of Difficulty");
         } else
-            JOptionPane.showMessageDialog(null, "Please Select level of Difficulty");
+            JOptionPane.showMessageDialog(null, "Create Or Load a Profile");
+
     }
 
     public void saveProgress(File file) {
         try (final ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file))) {
-            (objectOutputStream).writeObject(cplayer);
+            (objectOutputStream).writeObject(player);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -167,7 +167,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
     public void loadProgress(File file) {
         try (final ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file))) {
-            cplayer = (Player) objectInputStream.readObject();
+            player = (ArrayList<Player>) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -203,7 +203,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             } else {
                 txt = "Puzzle Complete!";
                 gPanel.showMessage(txt);
-                cplayer.setScore(+1) ;
+                cplayer.setScore(+1);
                 saveProgress(fileStorage);
                 createIndex();
                 this.setContentPane(index);
@@ -272,30 +272,32 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             String txt, nameP;
 
             nameP = pName.getText();
-            if(!nameP.equals("")) {
+            if (!nameP.equals("")) {
                 cplayer = new Player(nameP);
+                player.add(cplayer);
                 txt = "New Profile '" +
                         nameP + "' Created!\n\nSelect Level of Difficulty";
-                        saveProgress(fileStorage);
-            }
-            else
+                saveProgress(fileStorage);
+            } else
                 txt = "Field Must be Entered";
 
             dText.setText(txt);
 
         });
         loadP.addActionListener(e -> {
-            String txt ="";
+            String txt = "";
             String nameP = pName.getText();
             loadProgress(fileStorage);
-        if(cplayer.getName().equals(nameP)) {
-                    cplayer = cplayer;
-                    System.out.print("Welcome "+cplayer.toString());
-                }
-                else{
-                    txt = "Player Not Found!";
+            for(Player ply:player){
+            if (ply.getName().equals(nameP)) {
+                cplayer = ply;
+                txt = "Welcome " + cplayer.toString();
+                break;
 
-                }
+            } else {
+                txt = "Player Not Found!";
+
+            }}
             dText.setText(txt);
 
 
