@@ -27,7 +27,7 @@ public class gPanel extends JPanel implements Serializable {
     private int panelWidth;
     private int panelHeight;
     private Color WRONG = new Color(200, 0, 50);
-    //private Sudoku puzzle = new Sudoku();
+    private Sudoku puzzle;
     private JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
 
 
@@ -94,7 +94,7 @@ public class gPanel extends JPanel implements Serializable {
 
     public void genPuzzle(int level) {
 
-        Sudoku puzzle = new Sudoku();
+        puzzle = new Sudoku();
         puzzle.fillSudoku();//Generates complete puzzle.
         //creates a variable to store final puzzle
         finalPuzzle = puzzle.getPuzzle();

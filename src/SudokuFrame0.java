@@ -86,33 +86,32 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
         //declaring a Menu Item (re-usable)
         JMenuItem item = new JMenuItem("New Game");
-
+        item.addActionListener(this);
         gameMenu.add(item);
 
         item = new JMenuItem("Load Game");
-
+        item.addActionListener(this);
         gameMenu.add(item);
 
         item = new JMenuItem("Save Game");
         item.addActionListener(this);
-
         gameMenu.add(item);
 
+        gameMenu.addSeparator();
         item = new JMenuItem("Exit");
         item.addActionListener(this);
-
         gameMenu.add(item);
 
         item = new JMenuItem("Record");
         item.addActionListener(this);
-
         playerMenu.add(item);
 
         item = new JMenuItem("New Profile");
-
+        item.addActionListener(this);
         playerMenu.add(item);
 
         item = new JMenuItem("Delete Delete");
+        item.addActionListener(this);
 
         playerMenu.add(item);
 
@@ -123,12 +122,37 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         String menuName;
         menuName = event.getActionCommand(); // what's written on the item that was clicked
         if (menuName.equals("Exit")) {
+            saveProgress(fileStorage);
             System.exit(0);
         } // end if
+        else if (menuName.equals("Save Game")) {
+
+
+            gPanel.showMessage("Game Saved");
+        } //end else if
+        else if (menuName.equals("Save Game")) {
+
+
+            gPanel.showMessage("Game Saved");
+        } // end else if
         else if (menuName.equals("Record")) {
-            String txt = cplayer.toString();
+            String txt="";
+            if(cplayer == null){
+                txt ="No Player Record Found! Load or Create Profile";
+            }
+            else
+                txt = cplayer.toString();
+
             gPanel.showMessage(txt);
         } // end if
+        else if(menuName.equals("Load Game")){
+            goToIndex();
+            pName.requestFocus();
+        }
+        else if(menuName.equals("New Game")){
+            goToIndex();
+            pName.requestFocus();
+        }
         else if (event.getSource() == btnPlay) {
             goToGame();
 
@@ -136,6 +160,14 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             // timer.setText("Menu Item '" + menuName + "' is selected.");
         } // end else
 
+
+    }
+
+    public void goToIndex(){
+        createIndex();
+        this.setContentPane(index);
+        this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
+        this.revalidate();
 
     }
 
@@ -205,10 +237,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
                 gPanel.showMessage(txt);
                 cplayer.setScore(+1);
                 saveProgress(fileStorage);
-                createIndex();
-                this.setContentPane(index);
-                this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
-                this.revalidate();
+                goToIndex();
             }
 
             System.out.print(gp.toString(temp));
