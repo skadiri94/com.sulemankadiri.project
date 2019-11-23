@@ -1,10 +1,7 @@
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Arrays;
@@ -12,7 +9,6 @@ import java.util.Arrays;
 import static java.lang.String.valueOf;
 
 public class gPanel extends JPanel implements Serializable {
-
 
     private final Color OPEN_CELL = new Color(245, 240, 240);
     private final Color CLOSED_CELL = new Color(140, 140, 140);
@@ -32,17 +28,8 @@ public class gPanel extends JPanel implements Serializable {
     private int panelHeight;
     private Color WRONG = new Color(200, 0, 50);
     //private Sudoku puzzle = new Sudoku();
-    private JFormattedTextField inputFields[][] = new JFormattedTextField[9][9];
+    private JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
 
-        /*
-        JPanel overallP = new JPanel();
-        JPanel northPanel = new JPanel();
-        JPanel eastPanel = new JPanel();
-
-        JButton btnCheck = new JButton("Check");
-            JPanel gPanel = new JPanel();
-
-*/
 
     public gPanel(int level) {
         setCellSize(40);
@@ -58,27 +45,19 @@ public class gPanel extends JPanel implements Serializable {
 
         //setLayout(new GridLayout(inputFields.length, inputFields.length));
         setLayout(gl);
-
-
         genPuzzle(level);
-
-
         paintGrid();
+
         for (int i = 0; i < inputFields.length; i++) {
             for (int j = 0; j < inputFields[i].length; ++j) {
                 add(inputFields[i][j]);
             }
         }
-
-
         setVisible(true);
-
-
     }
 
     /**
      * displays a String in a message dialog
-     *
      * @param txt The string to be displayed
      */
     public static void showMessage(String txt) {
@@ -120,9 +99,6 @@ public class gPanel extends JPanel implements Serializable {
         //creates a variable to store final puzzle
         finalPuzzle = puzzle.getPuzzle();
         System.out.print(toString(finalPuzzle));
-        ///puzzle.removeMNum(20);//Removing missing digits to create an unsolved puzzle
-        //puzzle.removeMNum(40);
-        //System.out.print("Hello Man");
         //System.out.print(puzzle.toString());
         temp = getSudoku(finalPuzzle);
         reemoveMNum(level, temp);//saving the unsolved variable to temp
@@ -135,7 +111,6 @@ public class gPanel extends JPanel implements Serializable {
             for (int col = 0; col < puzzle[row].length; col++)
                 if (puzzle[row][col] == num)
                     return true;
-
         return false;
 
     }
@@ -149,8 +124,6 @@ public class gPanel extends JPanel implements Serializable {
             }
             digits += "\n";
         }
-
-
         return digits;
     }
 
@@ -168,7 +141,6 @@ public class gPanel extends JPanel implements Serializable {
 
     /**
      * Method overload returns and a 2 dimension integer arrays
-     *
      * @param puzzle is  The puzzle inputed by use which will be  to be displayed
      */
 
@@ -238,9 +210,6 @@ public class gPanel extends JPanel implements Serializable {
                     e.printStackTrace();
                 }
 
-                //InputListener listener = new InputListener();
-                //Constructing the inputCells 9*9
-
                 //Assigning the temp variable to grids
                 inputFields[row][col].setValue((temp[row][col]));
 
@@ -252,7 +221,6 @@ public class gPanel extends JPanel implements Serializable {
 
                     inputFields[row][col].setValue(null);
                     inputFields[row][col].setEditable(true);
-                    //inputFields[row][col].addActionListener(listener);
 
                     inputFields[row][col].addKeyListener(new KeyAdapter() {
                         public void keyReleased(KeyEvent e) {
@@ -275,7 +243,6 @@ public class gPanel extends JPanel implements Serializable {
                             }
 
                             /*
-                             *
                              * 1. Get the input String via tfCells[rowSelected][colSelected].getText()
                              * 2. Convert the String to int via Integer.parseInt().
                              * 3. Assume that the solution is unique. Compare the input number with
@@ -290,17 +257,9 @@ public class gPanel extends JPanel implements Serializable {
                                 inputFields[selectedRow][selectedCol].setBackground(CORRECT);
                                 // System.out.print(input + " Matches" + finalPuzzle[selectedRow][selectedCol] );
                             }
-                                    /*else if( inputFields[selectedRow][selectedCol].getValue()== null)
-                                        inputFields[selectedRow][selectedCol].setBackground(WRONG);*/
 
                             else
                                 inputFields[selectedRow][selectedCol].setBackground(WRONG);
-                /*System.out.println(selectedRow +" "+ selectedCol);
-                System.out.print(tooString(finalPuzzle));
-                System.out.print(finalPuzzle[selectedRow][selectedCol]);
-
-                else
-                    System.out.print("false");*/
 
                         }
                     });
@@ -310,7 +269,6 @@ public class gPanel extends JPanel implements Serializable {
 
                 inputFields[row][col].setHorizontalAlignment(JFormattedTextField.CENTER);//Aligns the input to the center
                 inputFields[row][col].setFont(FONT_SIZE);
-                //inputFields[row][col].se
                 // inputFields[row][col].setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
                 /**This Set borders to the cells giving the illusion of a 3 x 3 Grid**/
 
@@ -319,7 +277,6 @@ public class gPanel extends JPanel implements Serializable {
 
                 if (row == 3 || row == 6)
                     inputFields[row][col].setBorder(BorderFactory.createMatteBorder(3, 1, 0, 0, BORDER));
-
 
                 if ((row == 3 && col == 3) || (row == 6 && col == 6) || (row == 6 && col == 3) || (row == 3 && col == 6))
                     inputFields[row][col].setBorder(BorderFactory.createMatteBorder(3, 3, 0, 0, BORDER));
@@ -330,7 +287,6 @@ public class gPanel extends JPanel implements Serializable {
 
     /**
      * This method proved to be a challinging as my program always crashes once in every 3 or 5 runs giving an Out of
-     *
      * @param mNum
      * @param puzzle
      * @IndexOutofbounds Exception because the cellIndex that was being generated randomly was between 1 and 81 and for
@@ -344,7 +300,6 @@ public class gPanel extends JPanel implements Serializable {
         // while
         while (count != 0) {
             int cellIndex = ((int) (Math.random() * (81 - 1 + 1))) + 1;
-
 
             //System.out.println(cellIndex);
             // extract coordinates i  and j
@@ -393,7 +348,6 @@ public class gPanel extends JPanel implements Serializable {
             if (!Arrays.equals(finalPuzzle[i], temp[i])) {
 
                 return false;
-
             }
 
         }

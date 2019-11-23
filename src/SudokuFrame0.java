@@ -4,27 +4,29 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
 
 /**
  * First panel for the Sudoku grid and Game menu
  **/
-public class SudokuFrame0<Static> extends JFrame implements ActionListener, Serializable {
+public class SudokuFrame0 extends JFrame implements ActionListener, Serializable {
 
-    JMenu gameMenu, playerMenu;
-    JLabel lsudoku, gTitle, pNLabel;
-    JPanel topPanel, rightPanel, index, finalPanel;
-    JButton btnSubmit, btnPlay, levelB, levelI, levelM,createP,loadP;
-    //JTextArea timer = new JTextArea("Time");
-    JTextField pName;
-    gPanel gp;
-    JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
-    //In Game menu for interact with the game like pause, play, stop and Save
     private File fileStorage;
-    private Player player;
+    private ArrayList<Player> player = new ArrayList<>();
+    private Player cplayer;
     private int level;
     private int[][] finalPuzzle = new int[9][9];
     private int[][] temp = new int[9][9];
+    JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
+
+    //In Game menu for interact with the game like pause, play, stop and Save
+    JMenu gameMenu, playerMenu;
+    JLabel lsudoku, lSelect, pNLabel;
+    JPanel topPanel, rightPanel, index, finalPanel;
+    JButton btnSubmit, btnPlay, levelB, levelI, levelM, createP, loadP;
+    JTextField pName;
+    gPanel gp;
+
 
 
     /**
@@ -36,13 +38,10 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
         //Setting the panel's default properties
         super("Sudoku");
         fileStorage = new File("Progress.dat");
-        // player = new Player();
         setSize(500, 500);
         //setLocation(500,200);
         setResizable(false);
-
         Container pane = getContentPane();
-
         //registering an exit close button.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -50,7 +49,6 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
 
         createIndex();
         pane.add(index);
-
 
         //creates the GameMenu
         createGameMenu();
@@ -62,7 +60,6 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
         menuBar.add(gameMenu);
         menuBar.add(playerMenu);
         //menuBar.add(exitMenu);
-
 
     }
 
@@ -89,7 +86,6 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
         //Action Listener can't be added to an instance of JMune but with Jemune Item it can
         //exitMenu = new JMenu("Exit");
 
-
         //declaring a Menu Item (re-usable)
         JMenuItem item = new JMenuItem("New Game");
 
@@ -98,7 +94,6 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
         item = new JMenuItem("Load Game");
 
         gameMenu.add(item);
-
 
         item = new JMenuItem("Save Game");
         item.addActionListener(this);
@@ -151,10 +146,10 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
             JOptionPane.showMessageDialog(null, "Please Select level of Difficulty");
     }
 
-
     public void saveProgress(File file) {
         try (final ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file))) {
-            (objectOutputStream).writeObject(player);
+            (objectOutputStream).writeObject(cplayer);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -165,7 +160,7 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
 
     public void loadProgress(File file) {
         try (final ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file))) {
-            Player[][] player = (Player[][]) objectInputStream.readObject();
+            cplayer = (Player) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -211,36 +206,29 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
             //gp.genPuzzle(level);
 
         });
+
         btnSubmit.setSize(40, 20);
         rightPanel.setLayout(new FlowLayout());
-        //timer.setEditable(false);
-        // String tm ="";
-
-        //runTimer(tm);
-        //timer.setText(tm);
-
-        //rightPanel.add(timer, BorderLayout.NORTH);
-        rightPanel.add(btnSubmit, BorderLayout.SOUTH);
         rightPanel.add(btnSubmit, new FlowLayout());
-
         finalPanel.add(topPanel, BorderLayout.NORTH);
         finalPanel.add(rightPanel, BorderLayout.EAST);
-
         finalPanel.add(gp, BorderLayout.CENTER);
-
 
     }
 
     public void createIndex() {
         // creating a new GroupLayout object and associate it with the panel:
         index = new JPanel();
-        JPanel northP,centerP,southP;
-        JTextArea jta= new JTextArea();
-        jta.setSize(50,50);
-        jta.setEditable(false);
+        JPanel northP, centerP, southP;
+        JTextArea dText = new JTextArea();
+        dText.setSize(50, 50);
+        dText.setEditable(false);
+        dText.setFont(new Font("SanSerif", Font.PLAIN, 14));
+        dText.setForeground(Color.RED);
+
         index.setLayout(new BorderLayout());
         northP = new JPanel(new FlowLayout());
-        northP.setBorder(new EmptyBorder(35, 5, 55, 5) );//adds margin to panel
+        northP.setBorder(new EmptyBorder(35, 5, 55, 5));//adds margin to panel
         northP.setAlignmentX(FlowLayout.CENTER);
 
         pNLabel = new JLabel("Player Name:");
@@ -257,18 +245,52 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
         northP.add(pName);
         northP.add(createP);
         northP.add(loadP);
-        northP.add(jta);
-        jta.setText("");
+        northP.add(dText);
+        dText.setText("");
         centerP = new JPanel();
         centerP.setLayout(new FlowLayout());
+        lSelect = new JLabel("Select Difficulty Level:");
+        centerP.add(lSelect);
         centerP.add(levelB);
         centerP.add(levelI);
         centerP.add(levelM);
         southP = new JPanel(new FlowLayout());
         southP.add(btnPlay);
-
+        southP.setBorder(new EmptyBorder(5, 5, 35, 5));//adds margin to panel
 
         pName.addActionListener(this);
+        createP.addActionListener(e -> {
+            String txt, nameP;
+
+            nameP = pName.getText();
+            if(!nameP.equals("")) {
+                cplayer = new Player(nameP);
+                txt = "New Profile '" +
+                        nameP + "' Created!\n\nSelect Level of Difficulty";
+                        saveProgress(fileStorage);
+            }
+            else
+                txt = "Field Must be Entered";
+
+            dText.setText(txt);
+
+        });
+        loadP.addActionListener(e -> {
+            String txt;
+            String nameP = pName.getText();
+            loadProgress(fileStorage);
+        if(cplayer.getName().equals(nameP)) {
+                    cplayer = cplayer;
+                    System.out.print("Welcome "+cplayer.toString());
+                }
+                else{
+                    txt = "Player Not Found!";
+                    dText.setText(txt);
+                }
+
+
+
+        });
         levelB.addActionListener(e -> {
             level = 10;
         });

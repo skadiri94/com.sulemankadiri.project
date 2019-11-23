@@ -32,7 +32,6 @@ public class SudokuDriver extends JFrame
 
        //sd.fillSudoku();
 
-
         //sd.removeMNum(20);
        // System.out.println(sd.toString());
 
