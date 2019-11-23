@@ -106,6 +106,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         gameMenu.add(item);
 
         item = new JMenuItem("Record");
+        item.addActionListener(this);
 
         playerMenu.add(item);
 
@@ -126,13 +127,19 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         if (menuName.equals("Exit")) {
             System.exit(0);
         } // end if
-        else {
-            // timer.setText("Menu Item '" + menuName + "' is selected.");
-        } // end else
-        if (event.getSource() == btnPlay) {
+        else if (menuName.equals("Record")) {
+            String txt = cplayer.toString();
+            gPanel.showMessage(txt);
+            System.exit(0);
+        } // end if
+        else if (event.getSource() == btnPlay) {
             goToGame();
 
         }
+        else {
+            // timer.setText("Menu Item '" + menuName + "' is selected.");
+        } // end else
+
 
     }
 
@@ -196,6 +203,8 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             } else {
                 txt = "Puzzle Complete!";
                 gPanel.showMessage(txt);
+                cplayer.setScore(+1) ;
+                saveProgress(fileStorage);
                 createIndex();
                 this.setContentPane(index);
                 this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
@@ -276,7 +285,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
         });
         loadP.addActionListener(e -> {
-            String txt;
+            String txt ="";
             String nameP = pName.getText();
             loadProgress(fileStorage);
         if(cplayer.getName().equals(nameP)) {
@@ -285,9 +294,9 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
                 }
                 else{
                     txt = "Player Not Found!";
-                    dText.setText(txt);
-                }
 
+                }
+            dText.setText(txt);
 
 
         });

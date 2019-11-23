@@ -33,6 +33,6 @@ public class Player implements Serializable {
 
 
     public String toString() {
-        return String.format("%s%d",getName(),getScore());
+        return String.format("Player Name: %s\nGames Completed: %d",getName(),getScore());
     }
 }
