@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +14,7 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
     JMenu gameMenu, playerMenu;
     JLabel lsudoku, gTitle, pNLabel;
     JPanel topPanel, rightPanel, index, finalPanel;
-    JButton btnSubmit, btnPlay, levelB, levelI, levelM;
+    JButton btnSubmit, btnPlay, levelB, levelI, levelM,createP,loadP;
     //JTextArea timer = new JTextArea("Time");
     JTextField pName;
     gPanel gp;
@@ -233,16 +234,38 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
     public void createIndex() {
         // creating a new GroupLayout object and associate it with the panel:
         index = new JPanel();
-        index.setLayout(new FlowLayout());
+        JPanel northP,centerP,southP;
+        JTextArea jta= new JTextArea();
+        jta.setSize(50,50);
+        jta.setEditable(false);
+        index.setLayout(new BorderLayout());
+        northP = new JPanel(new FlowLayout());
+        northP.setBorder(new EmptyBorder(35, 5, 55, 5) );//adds margin to panel
+        northP.setAlignmentX(FlowLayout.CENTER);
 
         pNLabel = new JLabel("Player Name:");
         pName = new JTextField(10);
+        createP = new JButton("Create Profile");
+        loadP = new JButton("Load Profile");
         levelB = new JButton("Beginner");
         levelI = new JButton("Intermediate");
         levelM = new JButton("Master");
         btnPlay = new JButton("Play");
-        levelB.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        //defines the groups and add the components
+        //levelB.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        northP.add(pNLabel);
+        northP.add(pName);
+        northP.add(createP);
+        northP.add(loadP);
+        northP.add(jta);
+        jta.setText("");
+        centerP = new JPanel();
+        centerP.setLayout(new FlowLayout());
+        centerP.add(levelB);
+        centerP.add(levelI);
+        centerP.add(levelM);
+        southP = new JPanel(new FlowLayout());
+        southP.add(btnPlay);
 
 
         pName.addActionListener(this);
@@ -258,12 +281,9 @@ public class SudokuFrame0<Static> extends JFrame implements ActionListener, Seri
         btnPlay.addActionListener(this);
 
 
-        index.add(pNLabel);
-        index.add(pName);
-        index.add(levelB);
-        index.add(levelI);
-        index.add(levelM);
-        index.add(btnPlay);
+        index.add(northP, BorderLayout.NORTH);
+        index.add(centerP, BorderLayout.CENTER);
+        index.add(southP, BorderLayout.SOUTH);
     }
 
 
