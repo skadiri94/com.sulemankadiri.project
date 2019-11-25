@@ -1,13 +1,16 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Player implements Serializable {
 
     private String name;
-    private int score;
+    private ArrayList<String> score = new ArrayList<>();
 
     public Player() {
 
     }
+
+
 
     public Player(String name) {
         setName(name);
@@ -23,11 +26,11 @@ public class Player implements Serializable {
         this.name = name;
     }
 
-    public int getScore() {
+    public ArrayList<String> getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(ArrayList<String> score) {
         this.score = score;
     }
 

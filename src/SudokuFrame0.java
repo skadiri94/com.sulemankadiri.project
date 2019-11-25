@@ -130,13 +130,9 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
             GridPanel.showMessage("Game Saved");
         } //end else if
-        else if (menuName.equals("Save Game")) {
 
-
-            GridPanel.showMessage("Game Saved");
-        } // end else if
         else if (menuName.equals("Record")) {
-            String txt = "";
+            String txt;
             if (cplayer == null) {
                 txt = "No Player Record Found! Load or Create Profile";
             } else
@@ -227,8 +223,8 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         finalPanel = new JPanel();
         finalPanel.setSize(this.getSize());
         finalPanel.setLayout(new BorderLayout());
-        JTextArea jta = new JTextArea();
-        jta.setEditable(true);
+        JLabel lTimer = new JLabel("Time:");
+        myTimer timer = new myTimer(100);
 
         gp = new GridPanel(level);
 
@@ -242,13 +238,13 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         btnSubmit = new JButton("SUBMIT");
         inputFields = new JFormattedTextField[9][9];
         btnSubmit.addActionListener(e -> {
-            String txt = "";
+            String txt;
 
             if (!gp.resultCheck()) {
                 txt = "Puzzle Not Complete or Incorrect Try again!";
             } else {
                 txt = "Puzzle Complete!";
-                cplayer.setScore(cplayer.getScore() + 1);
+                //cplayer.setScore(cplayer.getScore() + 1);
                 saveProgress(fileStorage);
                 goToGame();
                 //gp.reSetPuzzle();
@@ -260,6 +256,10 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
         btnSubmit.setSize(40, 20);
         rightPanel.setLayout(new FlowLayout());
+        rightPanel.setPreferredSize(new Dimension(100,100));
+        lTimer.setBorder(new EmptyBorder(5, 0, 5, 0));
+        rightPanel.add(lTimer);
+        rightPanel.add(timer);
         rightPanel.add(btnSubmit, new FlowLayout());
         finalPanel.add(topPanel, BorderLayout.NORTH);
         finalPanel.add(rightPanel, BorderLayout.EAST);
@@ -267,7 +267,8 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
     }
 
-    public void createIndex() {
+    private void createIndex() {
+
         // creating a new GroupLayout object and associate it with the panel:
         index = new JPanel();
         JPanel northP, centerP, southP;
@@ -345,15 +346,9 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
 
         });
-        levelB.addActionListener(e -> {
-            level = 10;
-        });
-        levelI.addActionListener(e -> {
-            level = 30;
-        });
-        levelM.addActionListener(e -> {
-            level = 65;
-        });
+        levelB.addActionListener(e -> level = 10);
+        levelI.addActionListener(e -> level = 30);
+        levelM.addActionListener(e -> level = 65);
         btnPlay.addActionListener(this);
 
 

@@ -12,12 +12,12 @@ import static java.lang.String.valueOf;
 public class GridPanel extends JPanel implements Serializable {
 
     private final Color OPEN_CELL = new Color(245, 240, 240);
-    private final Color CLOSED_CELL = new Color(140, 140, 140);
+    private final Color CLOSED_CELL = new Color(230, 230, 230);
     private final Color CORRECT = new Color(100, 180, 100);
     private final Color BORDER = new Color(100, 150, 200);
     private final Font FONT_SIZE = new Font("Arial", Font.BOLD, 16);
-    int[][] finalPuzzle;
     int[][] temp;
+    private int[][] finalPuzzle;
     //The UI Properties
     private int cellSize;
     private int panelWidth;
@@ -99,33 +99,32 @@ public class GridPanel extends JPanel implements Serializable {
 
     public boolean isMatch(int[][] puzzle, int num) {
 
-        for (int row = 0; row < puzzle.length; row++)
-            for (int col = 0; col < puzzle[row].length; col++)
-                if (puzzle[row][col] == num)
+        for (int[] ints : puzzle) {
+            for (int col = 0; col < ints.length; col++)
+                if (ints[col] == num)
                     return true;
+        }
         return false;
 
     }
 
     public String toString(int[][] finalPuzzle) {
-        String digits = "";
-        for (int i = 0; i < finalPuzzle.length; i++) {
-            for (int j = 0; j < finalPuzzle[i].length; j++) {
-                digits += finalPuzzle[i][j] + " ";
+        StringBuilder digits = new StringBuilder();
+        for (int[] ints : finalPuzzle) {
+            for (int j = 0; j < ints.length; j++) {
+                digits.append(ints[j]).append(" ");
 
             }
-            digits += "\n";
+            digits.append("\n");
         }
-        return digits;
+        return digits.toString();
     }
 
     public int[][] getSudoku(int[][] puzzle) {
         int[][] num = new int[9][9];
 
         for (int i = 0; i < puzzle.length; i++) {
-            for (int j = 0; j < puzzle[i].length; j++) {
-                num[i][j] = puzzle[i][j];
-            }
+            System.arraycopy(puzzle[i], 0, num[i], 0, puzzle[i].length);
         }
 
         return num;
@@ -209,6 +208,7 @@ public class GridPanel extends JPanel implements Serializable {
                 if (Integer.parseInt(inputFields[row][col].getText()) != 0) {
                     inputFields[row][col].setText(valueOf(temp[row][col]));
                     inputFields[row][col].setEditable(false);
+                    //inputFields[row][col].setBackground(CLOSED_CELL);
 
                 } else {
 
@@ -254,7 +254,6 @@ public class GridPanel extends JPanel implements Serializable {
 
                         }
                     });
-
 
                 }
 
@@ -347,28 +346,11 @@ public class GridPanel extends JPanel implements Serializable {
         return true;
     }
 
-    /*
-        public String resultCheck(int[][] finalpuzzle, int[][] temp2) {
-            String txt = "";
-
-            if (isEqual(finalpuzzle, temp2))
-                txt = "Win!";
-            else {
-                txt = "Loss!";
-            }
-
-            return txt;
-        }
-    */
     public boolean resultCheck() {
 
         temp = getSudoku();
 
         return isEqual(finalPuzzle, temp);
-    }
-
-    public void reSetPuzzle() {
-        puzzle.fillSudoku();
     }
 
 
