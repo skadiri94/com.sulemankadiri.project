@@ -110,7 +110,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         item.addActionListener(this);
         playerMenu.add(item);
 
-        item = new JMenuItem("Delete Delete");
+        item = new JMenuItem("Delete Profile");
         item.addActionListener(this);
 
         playerMenu.add(item);
@@ -147,10 +147,19 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         } // end if
         else if(menuName.equals("Load Game")){
             goToIndex();
+            createP.setVisible(false);
+            cplayer=null;
+            level=0;
             pName.requestFocus();
         }
         else if(menuName.equals("New Game")){
+            goToUserIndex();
+        }
+
+        else if(menuName.equals("New Profile")){
             goToIndex();
+            cplayer=null;
+            level=0;
             pName.requestFocus();
         }
         else if (event.getSource() == btnPlay) {
@@ -165,6 +174,19 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
     public void goToIndex(){
         createIndex();
+        this.setContentPane(index);
+        this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
+        this.revalidate();
+
+    }
+
+public void goToUserIndex(){
+        createIndex();
+        level=0;
+        pName.setText(cplayer.getName());
+        pName.setEditable(false);
+        createP.setVisible(false);
+        loadP.setVisible(false);
         this.setContentPane(index);
         this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
         this.revalidate();
@@ -225,7 +247,21 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         btnSubmit = new JButton("SUBMIT");
         inputFields = new JFormattedTextField[9][9];
         btnSubmit.addActionListener(e -> {
-            gp.getSudoku();
+            String txt = "";
+
+            if (!gp.resultCheck()){
+                txt = "Puzzle Not Complete or Incorrect Try again!";}
+
+            else{
+                    txt = "Puzzle Complete!";
+                    cplayer.setScore(cplayer.getScore()+1);
+                    saveProgress(fileStorage);
+                    goToGame();
+                    //gp.reSetPuzzle();
+                }
+
+            GridPanel.showMessage(txt);
+            /*
             finalPuzzle = gp.getFinalPuzzle();
             temp = gp.getSudoku();
             String txt = "";
@@ -237,8 +273,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
                 GridPanel.showMessage(txt);
                 cplayer.setScore(+1);
                 saveProgress(fileStorage);
-                goToIndex();
-            }
+            }*/
 
             System.out.print(gp.toString(temp));
             //gp.genPuzzle(level);
@@ -261,7 +296,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         JTextArea dText = new JTextArea();
         dText.setSize(50, 50);
         dText.setEditable(false);
-        dText.setFont(new Font("SanSerif", Font.PLAIN, 14));
+        dText.setFont(new Font("SanSerif", Font.BOLD, 12));
         dText.setForeground(Color.RED);
 
         index.setLayout(new BorderLayout());

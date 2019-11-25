@@ -166,10 +166,11 @@ public class GridPanel extends JPanel implements Serializable {
                 // puzzle[i][j].getValue();
                 // int numTemp = Integer.parseInt(inputFields[i][j].getText());
                 if (inputFields[i][j].getValue() == null) {
-                    inputFields[i][j].setValue(0);
-                    System.out.print(inputFields[i][j].getValue());
+                    num[i][j] = 0;
+                    inputFields[i][j].setBackground(WRONG);
                 }
-                num[i][j] = Integer.parseInt(inputFields[i][j].getText());
+                else
+                    num[i][j] = Integer.parseInt(inputFields[i][j].getText());
             }
         }
 
@@ -348,7 +349,7 @@ public class GridPanel extends JPanel implements Serializable {
 
         return true;
     }
-
+/*
     public String resultCheck(int[][] finalpuzzle, int[][] temp2) {
         String txt = "";
 
@@ -360,5 +361,20 @@ public class GridPanel extends JPanel implements Serializable {
 
         return txt;
     }
+*/
+    public boolean resultCheck() {
+
+        temp = getSudoku();
+
+        if (isEqual(finalPuzzle, temp))
+            return true;
+
+        return false;
+    }
+
+    public void reSetPuzzle(){
+        puzzle.fillSudoku();
+    }
+
 
 }
