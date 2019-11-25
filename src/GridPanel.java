@@ -1,7 +1,8 @@
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Arrays;
@@ -10,24 +11,20 @@ import static java.lang.String.valueOf;
 
 public class GridPanel extends JPanel implements Serializable {
 
+    private final Color OPEN_CELL = new Color(245, 240, 240);
+    private final Color CLOSED_CELL = new Color(140, 140, 140);
+    private final Color CORRECT = new Color(100, 180, 100);
+    private final Color BORDER = new Color(100, 150, 200);
+    private final Font FONT_SIZE = new Font("Arial", Font.BOLD, 16);
+    int[][] finalPuzzle;
+    int[][] temp;
     //The UI Properties
     private int cellSize;
     private int panelWidth;
     private int panelHeight;
     private Sudoku puzzle;
     private JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
-
-    private final Color OPEN_CELL = new Color(245, 240, 240);
-    private final Color CLOSED_CELL = new Color(140, 140, 140);
-    private final Color CORRECT = new Color(100, 180, 100);
     private Color WRONG = new Color(200, 0, 50);
-    private final Color BORDER = new Color(100, 150, 200);
-    private final Font FONT_SIZE = new Font("Arial", Font.BOLD, 16);
-    int[][] finalPuzzle;
-    int[][] temp;
-
-
-
 
 
     public GridPanel(int level) {
@@ -52,6 +49,7 @@ public class GridPanel extends JPanel implements Serializable {
 
     /**
      * displays a String in a message dialog
+     *
      * @param txt The string to be displayed
      */
     public static void showMessage(String txt) {
@@ -135,6 +133,7 @@ public class GridPanel extends JPanel implements Serializable {
 
     /**
      * Method overload returns and a 2 dimension integer arrays
+     *
      * @param puzzle is  The puzzle inputed by use which will be  to be displayed
      */
 
@@ -168,8 +167,7 @@ public class GridPanel extends JPanel implements Serializable {
                 if (inputFields[i][j].getValue() == null) {
                     num[i][j] = 0;
                     inputFields[i][j].setBackground(WRONG);
-                }
-                else
+                } else
                     num[i][j] = Integer.parseInt(inputFields[i][j].getText());
             }
         }
@@ -251,9 +249,7 @@ public class GridPanel extends JPanel implements Serializable {
                             if (input == finalPuzzle[selectedRow][selectedCol]) {
                                 inputFields[selectedRow][selectedCol].setBackground(CORRECT);
                                 // System.out.print(input + " Matches" + finalPuzzle[selectedRow][selectedCol] );
-                            }
-
-                            else
+                            } else
                                 inputFields[selectedRow][selectedCol].setBackground(WRONG);
 
                         }
@@ -282,6 +278,7 @@ public class GridPanel extends JPanel implements Serializable {
 
     /**
      * This method proved to be a challinging as my program always crashes once in every 3 or 5 runs giving an Out of
+     *
      * @param mNum
      * @param puzzle
      * @IndexOutofbounds Exception because the cellIndex that was being generated randomly was between 1 and 81 and for
@@ -349,30 +346,28 @@ public class GridPanel extends JPanel implements Serializable {
 
         return true;
     }
-/*
-    public String resultCheck(int[][] finalpuzzle, int[][] temp2) {
-        String txt = "";
 
-        if (isEqual(finalpuzzle, temp2))
-            txt = "Win!";
-        else {
-            txt = "Loss!";
+    /*
+        public String resultCheck(int[][] finalpuzzle, int[][] temp2) {
+            String txt = "";
+
+            if (isEqual(finalpuzzle, temp2))
+                txt = "Win!";
+            else {
+                txt = "Loss!";
+            }
+
+            return txt;
         }
-
-        return txt;
-    }
-*/
+    */
     public boolean resultCheck() {
 
         temp = getSudoku();
 
-        if (isEqual(finalPuzzle, temp))
-            return true;
-
-        return false;
+        return isEqual(finalPuzzle, temp);
     }
 
-    public void reSetPuzzle(){
+    public void reSetPuzzle() {
         puzzle.fillSudoku();
     }
 

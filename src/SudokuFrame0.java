@@ -136,33 +136,28 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             GridPanel.showMessage("Game Saved");
         } // end else if
         else if (menuName.equals("Record")) {
-            String txt="";
-            if(cplayer == null){
-                txt ="No Player Record Found! Load or Create Profile";
-            }
-            else
+            String txt = "";
+            if (cplayer == null) {
+                txt = "No Player Record Found! Load or Create Profile";
+            } else
                 txt = cplayer.toString();
 
             GridPanel.showMessage(txt);
         } // end if
-        else if(menuName.equals("Load Game")){
+        else if (menuName.equals("Load Game")) {
             goToIndex();
             createP.setVisible(false);
-            cplayer=null;
-            level=0;
+            cplayer = null;
+            level = 0;
             pName.requestFocus();
-        }
-        else if(menuName.equals("New Game")){
+        } else if (menuName.equals("New Game")) {
             goToUserIndex();
-        }
-
-        else if(menuName.equals("New Profile")){
+        } else if (menuName.equals("New Profile")) {
             goToIndex();
-            cplayer=null;
-            level=0;
+            cplayer = null;
+            level = 0;
             pName.requestFocus();
-        }
-        else if (event.getSource() == btnPlay) {
+        } else if (event.getSource() == btnPlay) {
             goToGame();
 
         } else {
@@ -172,7 +167,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
     }
 
-    public void goToIndex(){
+    public void goToIndex() {
         createIndex();
         this.setContentPane(index);
         this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
@@ -180,9 +175,9 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
     }
 
-public void goToUserIndex(){
+    public void goToUserIndex() {
         createIndex();
-        level=0;
+        level = 0;
         pName.setText(cplayer.getName());
         pName.setEditable(false);
         createP.setVisible(false);
@@ -249,34 +244,17 @@ public void goToUserIndex(){
         btnSubmit.addActionListener(e -> {
             String txt = "";
 
-            if (!gp.resultCheck()){
-                txt = "Puzzle Not Complete or Incorrect Try again!";}
-
-            else{
-                    txt = "Puzzle Complete!";
-                    cplayer.setScore(cplayer.getScore()+1);
-                    saveProgress(fileStorage);
-                    goToGame();
-                    //gp.reSetPuzzle();
-                }
-
-            GridPanel.showMessage(txt);
-            /*
-            finalPuzzle = gp.getFinalPuzzle();
-            temp = gp.getSudoku();
-            String txt = "";
-            if (!gp.resultCheck(finalPuzzle, temp).equals("Win!")) {
+            if (!gp.resultCheck()) {
                 txt = "Puzzle Not Complete or Incorrect Try again!";
-                GridPanel.showMessage(txt);
             } else {
                 txt = "Puzzle Complete!";
-                GridPanel.showMessage(txt);
-                cplayer.setScore(+1);
+                cplayer.setScore(cplayer.getScore() + 1);
                 saveProgress(fileStorage);
-            }*/
+                goToGame();
+                //gp.reSetPuzzle();
+            }
 
-            System.out.print(gp.toString(temp));
-            //gp.genPuzzle(level);
+            GridPanel.showMessage(txt);
 
         });
 
@@ -352,16 +330,17 @@ public void goToUserIndex(){
             String txt = "";
             String nameP = pName.getText();
             loadProgress(fileStorage);
-            for(Player ply:player){
-            if (ply.getName().equals(nameP)) {
-                cplayer = ply;
-                txt = "Welcome " + cplayer.toString();
-                break;
+            for (Player ply : player) {
+                if (ply.getName().equals(nameP)) {
+                    cplayer = ply;
+                    txt = "Welcome " + cplayer.toString();
+                    break;
 
-            } else {
-                txt = "Player Not Found!";
+                } else {
+                    txt = "Player Not Found!";
 
-            }}
+                }
+            }
             dText.setText(txt);
 
 

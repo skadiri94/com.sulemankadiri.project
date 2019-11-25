@@ -1,20 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class SudokuDriver extends JFrame
-{
+public class SudokuDriver extends JFrame {
 
-    public static void main(String[] args) {
-        new SudokuDriver();
+    public SudokuDriver() {
 
-    }
-    public SudokuDriver(){
-
-       // Sudoku sd = new Sudoku();
+        // Sudoku sd = new Sudoku();
         super("Sudoku");
         //fileStorage = new File("Progress.dat");
         // player = new Player();
-        setSize(500,500);
+        setSize(500, 500);
         //setLocation(500,200);
         setResizable(false);
 
@@ -29,11 +24,16 @@ public class SudokuDriver extends JFrame
 
         //String s = JOptionPane.showInputDialog(null ,"Enter anything");
 
-       //sd.fillSudoku();
+        //sd.fillSudoku();
 
         //sd.removeMNum(20);
-       // System.out.println(sd.toString());
+        // System.out.println(sd.toString());
 
+
+    }
+
+    public static void main(String[] args) {
+        new SudokuDriver();
 
     }
 }
