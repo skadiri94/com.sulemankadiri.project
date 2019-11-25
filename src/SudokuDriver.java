@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 public class SudokuDriver extends JFrame
 {
@@ -21,9 +20,9 @@ public class SudokuDriver extends JFrame
 
         Container pane = getContentPane();
         //new Grid();
-        //new gPanel(10);
+        //new GridPanel(10);
 
-        pane.add(new gPanel(10));
+        pane.add(new GridPanel(10));
 
         pane.setVisible(true);
 

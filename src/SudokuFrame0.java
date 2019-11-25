@@ -18,7 +18,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     JPanel topPanel, rightPanel, index, finalPanel;
     JButton btnSubmit, btnPlay, levelB, levelI, levelM, createP, loadP;
     JTextField pName;
-    gPanel gp;
+    GridPanel gp;
     private File fileStorage;
     private ArrayList<Player> player = new ArrayList<>();
     private Player cplayer;
@@ -128,12 +128,12 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         else if (menuName.equals("Save Game")) {
 
 
-            gPanel.showMessage("Game Saved");
+            GridPanel.showMessage("Game Saved");
         } //end else if
         else if (menuName.equals("Save Game")) {
 
 
-            gPanel.showMessage("Game Saved");
+            GridPanel.showMessage("Game Saved");
         } // end else if
         else if (menuName.equals("Record")) {
             String txt="";
@@ -143,7 +143,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             else
                 txt = cplayer.toString();
 
-            gPanel.showMessage(txt);
+            GridPanel.showMessage(txt);
         } // end if
         else if(menuName.equals("Load Game")){
             goToIndex();
@@ -213,7 +213,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         JTextArea jta = new JTextArea();
         jta.setEditable(true);
 
-        gp = new gPanel(level);
+        gp = new GridPanel(level);
 
         topPanel = new JPanel();
         rightPanel = new JPanel();
@@ -231,10 +231,10 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             String txt = "";
             if (!gp.resultCheck(finalPuzzle, temp).equals("Win!")) {
                 txt = "Puzzle Not Complete or Incorrect Try again!";
-                gPanel.showMessage(txt);
+                GridPanel.showMessage(txt);
             } else {
                 txt = "Puzzle Complete!";
-                gPanel.showMessage(txt);
+                GridPanel.showMessage(txt);
                 cplayer.setScore(+1);
                 saveProgress(fileStorage);
                 goToIndex();

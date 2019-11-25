@@ -8,42 +8,36 @@ import java.util.Arrays;
 
 import static java.lang.String.valueOf;
 
-public class gPanel extends JPanel implements Serializable {
+public class GridPanel extends JPanel implements Serializable {
+
+    //The UI Properties
+    private int cellSize;
+    private int panelWidth;
+    private int panelHeight;
+    private Sudoku puzzle;
+    private JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
 
     private final Color OPEN_CELL = new Color(245, 240, 240);
     private final Color CLOSED_CELL = new Color(140, 140, 140);
     private final Color CORRECT = new Color(100, 180, 100);
+    private Color WRONG = new Color(200, 0, 50);
     private final Color BORDER = new Color(100, 150, 200);
     private final Font FONT_SIZE = new Font("Arial", Font.BOLD, 16);
     int[][] finalPuzzle;
     int[][] temp;
-    /**
-     * Creating the grid game panel that also implements action listener that takes in the
-     * the digits through a gui interface
-     **/
-
-//The UI Properties
-    private int cellSize;
-    private int panelWidth;
-    private int panelHeight;
-    private Color WRONG = new Color(200, 0, 50);
-    private Sudoku puzzle;
-    private JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
 
 
-    public gPanel(int level) {
+
+
+
+    public GridPanel(int level) {
         setCellSize(40);
         // setBackground(BORDER);
         setPanelWidth(getCellSize() * inputFields.length);
         setPanelHeight(getCellSize() * inputFields.length);
+
         GridLayout gl = new GridLayout(inputFields.length, inputFields.length);
         setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, BORDER));
-
-        // gl.setHgap(Integer.parseInt("5"));
-        //Set up the vertical gap value
-        //gl.setVgap(Integer.parseInt("5"));
-
-        //setLayout(new GridLayout(inputFields.length, inputFields.length));
         setLayout(gl);
         genPuzzle(level);
         paintGrid();
