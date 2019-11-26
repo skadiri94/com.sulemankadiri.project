@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * First panel for the Sudoku grid and Game menu
@@ -156,8 +157,12 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         } else if (event.getSource() == btnPlay) {
             goToGame();
 
-        } else {
-            // timer.setText("Menu Item '" + menuName + "' is selected.");
+        } else if (menuName.equals("Delete Profile")) {
+            String playerDel;
+            cplayer = null;
+            playerDel = JOptionPane.showInputDialog("Enter the Profile You wish to Delete");
+            delectProfile(playerDel, player);
+            GridPanel.showMessage("Profile Deleted Successfully");
         } // end else
 
 
@@ -246,7 +251,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             } else {
                 txt = "Puzzle Complete!";
                 timer.stop();
-                cplayer.addScore(level+"  " + timer.getDisplayTime());
+                cplayer.addScore(level + "  " + timer.getDisplayTime());
                 GridPanel.showMessage(txt);
                 System.out.print(timer.getDisplayTime());
                 saveProgress(fileStorage);
@@ -258,7 +263,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
         btnSubmit.setSize(40, 20);
         rightPanel.setLayout(new FlowLayout());
-        rightPanel.setPreferredSize(new Dimension(100,100));
+        rightPanel.setPreferredSize(new Dimension(100, 100));
         lTimer.setBorder(new EmptyBorder(5, 0, 5, 0));
         rightPanel.add(lTimer);
         rightPanel.add(timer);
@@ -321,7 +326,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
                 cplayer = new Player(nameP);
                 player.add(cplayer);
                 txt = "New Profile '" +
-                        cplayer.toString() + "' Created!\n\nSelect Level of Difficulty";
+                        cplayer.getName() + "' Created!\n\nSelect Level of Difficulty";
                 saveProgress(fileStorage);
             } else
                 txt = "Field Must be Entered";
@@ -359,22 +364,27 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         index.add(southP, BorderLayout.SOUTH);
     }
 
-    public enum Level {
-        HIGH  (3),  //calls constructor with value 3
-        MEDIUM(2),  //calls constructor with value 2
-        LOW   (1)   //calls constructor with value 1
-        ; // semicolon needed when fields / methods follow
 
+    public void delectProfile(String plyr, ArrayList<Player> player) {
+int originalSize = player.size();
+int index=0;
 
-        private final int levelCode;
+        for (int i = 0; i < originalSize;i++) {
 
-        private Level(int levelCode) {
-            this.levelCode = levelCode;
-        }
-    }
+            System.out.println(player.get(i).toString());
+            if (player.get(i).getName().equals(plyr)) {
+                index = i;
+                player.remove(index);
+                break;
+            } else {
+                JOptionPane.showMessageDialog(null, "Not Found");
+            }
+            System.out.println(player.get(i).toString());
 
+        }}
 
 }
+
 
 
 
