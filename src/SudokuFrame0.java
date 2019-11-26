@@ -242,17 +242,17 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
             if (!gp.resultCheck()) {
                 txt = "Puzzle Not Complete or Incorrect Try again!";
+                GridPanel.showMessage(txt);
             } else {
                 txt = "Puzzle Complete!";
-                //cplayer.setScore(cplayer.getScore() + 1);
                 timer.stop();
+                cplayer.addScore(level+"  " + timer.getDisplayTime());
+                GridPanel.showMessage(txt);
                 System.out.print(timer.getDisplayTime());
                 saveProgress(fileStorage);
                 goToGame();
                 //gp.reSetPuzzle();
             }
-
-            GridPanel.showMessage(txt);
 
         });
 
@@ -321,7 +321,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
                 cplayer = new Player(nameP);
                 player.add(cplayer);
                 txt = "New Profile '" +
-                        nameP + "' Created!\n\nSelect Level of Difficulty";
+                        cplayer.toString() + "' Created!\n\nSelect Level of Difficulty";
                 saveProgress(fileStorage);
             } else
                 txt = "Field Must be Entered";
@@ -357,6 +357,20 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         index.add(northP, BorderLayout.NORTH);
         index.add(centerP, BorderLayout.CENTER);
         index.add(southP, BorderLayout.SOUTH);
+    }
+
+    public enum Level {
+        HIGH  (3),  //calls constructor with value 3
+        MEDIUM(2),  //calls constructor with value 2
+        LOW   (1)   //calls constructor with value 1
+        ; // semicolon needed when fields / methods follow
+
+
+        private final int levelCode;
+
+        private Level(int levelCode) {
+            this.levelCode = levelCode;
+        }
     }
 
 

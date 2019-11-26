@@ -6,16 +6,10 @@ public class Player implements Serializable {
     private String name;
     private ArrayList<String> score = new ArrayList<>();
 
-    public Player() {
-
-    }
-
-
 
     public Player(String name) {
         setName(name);
         setScore(score);
-
     }
 
     public String getName() {
@@ -34,8 +28,21 @@ public class Player implements Serializable {
         this.score = score;
     }
 
+    public void addScore(String score) {
+        this.score.add(score);
+    }
+
 
     public String toString() {
-        return String.format("Player Name: %s\nGames Completed: %d", getName(), getScore());
+
+        String txt ="";
+        for(String scr: score){
+            if(scr != null) {
+                txt += scr + "\n";
+            }
+        }
+        return String.format("Player Name: %s\nGames Completed: %s", getName(), txt);
     }
+
+
 }
