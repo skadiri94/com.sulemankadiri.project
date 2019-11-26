@@ -19,7 +19,7 @@ public class myTimer extends JLabel {
     public myTimer(int delay){
 
         refreshRate = new Timer(delay, new ActionListen());
-        refreshRate.start();
+        start();
 
     }
 

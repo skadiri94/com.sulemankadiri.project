@@ -245,6 +245,8 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             } else {
                 txt = "Puzzle Complete!";
                 //cplayer.setScore(cplayer.getScore() + 1);
+                timer.stop();
+                System.out.print(timer.getDisplayTime());
                 saveProgress(fileStorage);
                 goToGame();
                 //gp.reSetPuzzle();

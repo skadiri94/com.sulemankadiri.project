@@ -244,8 +244,7 @@ public class GridPanel extends JPanel implements Serializable {
                              */
 
                             input = Integer.parseInt(inputFields[selectedRow][selectedCol].getText());
-                            //System.out.print(input);
-                            //if(isMatch(finalPuzzle,input))
+
                             if (input == finalPuzzle[selectedRow][selectedCol]) {
                                 inputFields[selectedRow][selectedCol].setBackground(CORRECT);
                                 // System.out.print(input + " Matches" + finalPuzzle[selectedRow][selectedCol] );
