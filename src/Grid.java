@@ -1,26 +1,20 @@
 import javax.swing.*;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.text.ParseException;
-
-import static java.awt.Transparency.TRANSLUCENT;
-
 
 /**Creating the grid game panel that also implements action listener that takes in the
  * the digits through a gui interface **/
 
 public  class Grid extends JFrame {
-	JPanel gPanel = new JPanel();
-	JFormattedTextField textFields[][] = new JFormattedTextField[9][9];
-	JPanel overallP = new JPanel();
-	JPanel northPanel = new JPanel();
-	JPanel eastPanel = new JPanel();
-	JButton btnCheck = new JButton("Check");
+	private JPanel gPanel = new JPanel();
+	private JFormattedTextField[][] textFields = new JFormattedTextField[9][9];
+	private JPanel overallP = new JPanel();
+	private JPanel northPanel = new JPanel();
+	private JPanel eastPanel = new JPanel();
+	private JButton btnCheck = new JButton("Check");
 
 
 
@@ -125,7 +119,7 @@ public  class Grid extends JFrame {
 		//});
 	}
 
-	public void fillGrid(JTextField[][] textFields) {
+	private void fillGrid(JTextField[][] textFields) {
 		int[][] digits = new int[9][9];
 
 		for (int i = 0; i < digits.length; i++) {
@@ -150,7 +144,7 @@ public  class Grid extends JFrame {
 	}
 	// Remove the K no. of digits to
 	// complete game
-	public void removeMDigits()
+	private void removeMDigits()
 	{
 		int count = 65;
 		while (count != 0)
@@ -173,7 +167,7 @@ public  class Grid extends JFrame {
 		}
 	}
 
-	int randomGenerator(int num)
+	private int randomGenerator(int num)
 	{
 		return (int) Math.floor((Math.random()*num+1));
 	}

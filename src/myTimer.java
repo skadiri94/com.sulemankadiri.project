@@ -3,7 +3,6 @@
  */
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,7 +29,7 @@ public class myTimer extends JLabel {
                 setSeconds(seconds);
                 setMinutes(minutes);
                 setHours(hours);
-                //displayTime = new JLabel("00:00:00", SwingConstants.RIGHT);
+
                 setDisplayTime();
                 setText(displayTime);
             }

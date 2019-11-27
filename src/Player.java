@@ -33,7 +33,6 @@ public class Player implements Serializable {
     }
 
     public String toString() {
-
         String txt ="";
         for(String scr: score){
             if(scr != null) {

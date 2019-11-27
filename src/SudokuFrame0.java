@@ -151,7 +151,6 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             cplayer = null;
 
             playerDel = JOptionPane.showInputDialog("Enter the Profile You wish to Delete");
-
             delectProfile(playerDel, player);
             saveProgress(fileStorage);
 

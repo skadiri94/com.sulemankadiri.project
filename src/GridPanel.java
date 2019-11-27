@@ -39,9 +39,9 @@ public class GridPanel extends JPanel implements Serializable {
         genPuzzle(level);
         paintGrid();
 
-        for (int i = 0; i < inputFields.length; i++) {
-            for (int j = 0; j < inputFields[i].length; ++j) {
-                add(inputFields[i][j]);
+        for (JFormattedTextField[] inputField : inputFields) {
+            for (int j = 0; j < inputField.length; ++j) {
+                add(inputField[j]);
             }
         }
         setVisible(true);
@@ -91,7 +91,7 @@ public class GridPanel extends JPanel implements Serializable {
         finalPuzzle = puzzle.getPuzzle();
         System.out.print(toString(finalPuzzle));
         temp = getSudoku(finalPuzzle);
-        reemoveMNum(level, temp);//saving the unsolved variable to temp
+        removeMNum(level, temp);//saving the unsolved variable to temp
 
     }
 
@@ -182,13 +182,13 @@ public class GridPanel extends JPanel implements Serializable {
         for (int row = 0; row < inputFields.length; ++row) {
             for (int col = 0; col < inputFields[row].length; ++col) {
 
-                /**Was trying to get each cell of the sudoko box restricted for only integer and a single value input
-                 * had problems with the java document hence i used the JFormattedTextField
-                 * https://stackoverflow.com/questions/11093326/restricting-jtextfield-input-to-integers
-                 * it's a requirement between the JFormattedTextField, NumberFormatter and NumberFormat that ""
-                 * is not a valid number, therefore it's rejecting your attempt to remove the last character.
-                 * This requirement is been enforced by numberFormatter.setAllowsInvalid. If I really did not  care about the format of the value,
-                 * but Just simply restricting the user's input, I would have used the JTextFieldLimit and DocumentFilter Class
+                /*Was trying to get each cell of the sudoko box restricted for only integer and a single value input
+                  had problems with the java document hence i used the JFormattedTextField
+                  https://stackoverflow.com/questions/11093326/restricting-jtextfield-input-to-integers
+                  it's a requirement between the JFormattedTextField, NumberFormatter and NumberFormat that ""
+                  is not a valid number, therefore it's rejecting your attempt to remove the last character.
+                  This requirement is been enforced by numberFormatter.setAllowsInvalid. If I really did not  care about the format of the value,
+                  but Just simply restricting the user's input, I would have used the JTextFieldLimit and DocumentFilter Class
                  */
                 try {
                     inputFields[row][col] = new JFormattedTextField(
@@ -233,12 +233,12 @@ public class GridPanel extends JPanel implements Serializable {
                                 }
                             }
 
-                            /**
-                             * Geting the input String via inputFields[rowSelected][colSelected].getText()
-                             * and then Converting the String to int via Integer.parseInt().
-                             * And Checking the input against the final puzzle if the are thesame
-                             * the background color is set to Green and if wrong the background
-                             * color is set to Red
+                            /*
+                              Geting the input String via inputFields[rowSelected][colSelected].getText()
+                              and then Converting the String to int via Integer.parseInt().
+                              And Checking the input against the final puzzle if the are thesame
+                              the background color is set to Green and if wrong the background
+                              color is set to Red
                              */
 
                             input = Integer.parseInt(inputFields[selectedRow][selectedCol].getText());
@@ -256,7 +256,7 @@ public class GridPanel extends JPanel implements Serializable {
                 inputFields[row][col].setHorizontalAlignment(JFormattedTextField.CENTER);//Aligns the input to the center
                 inputFields[row][col].setFont(FONT_SIZE);
                 // inputFields[row][col].setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
-                /**This Set borders to the cells giving the illusion of a 3 x 3 Grid**/
+                /*This Set borders to the cells giving the illusion of a 3 x 3 Grid**/
 
                 if (col == 3 || col == 6)
                     inputFields[row][col].setBorder(BorderFactory.createMatteBorder(1, 3, 0, 0, BORDER));
@@ -281,7 +281,7 @@ public class GridPanel extends JPanel implements Serializable {
      * randomly generated.
      */
 
-    private void reemoveMNum(int mNum, int[][] puzzle) {
+    private void removeMNum(int mNum, int[][] puzzle) {
         int count = mNum;
         // while
         while (count != 0) {
