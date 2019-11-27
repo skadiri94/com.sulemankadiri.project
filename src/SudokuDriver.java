@@ -1,39 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class SudokuDriver extends JFrame {
-
-    public SudokuDriver() {
-
-        // Sudoku sd = new Sudoku();
-        super("Sudoku");
-        //fileStorage = new File("Progress.dat");
-        // player = new Player();
-        setSize(500, 500);
-        //setLocation(500,200);
-        setResizable(false);
-
-        Container pane = getContentPane();
-        //new Grid();
-        //new GridPanel(10);
-
-        pane.add(new GridPanel(10));
-
-        pane.setVisible(true);
-
-
-        //String s = JOptionPane.showInputDialog(null ,"Enter anything");
-
-        //sd.fillSudoku();
-
-        //sd.removeMNum(20);
-        // System.out.println(sd.toString());
-
-
-    }
+public class SudokuDriver{
 
     public static void main(String[] args) {
-        new SudokuDriver();
+        SudokuFrame0 sPanel = new SudokuFrame0();
+        sPanel.setVisible(true);
 
     }
 }

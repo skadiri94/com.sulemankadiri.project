@@ -49,7 +49,6 @@ public class GridPanel extends JPanel implements Serializable {
 
     /**
      * displays a String in a message dialog
-     *
      * @param txt The string to be displayed
      */
     public static void showMessage(String txt) {
@@ -91,7 +90,6 @@ public class GridPanel extends JPanel implements Serializable {
         //creates a variable to store final puzzle
         finalPuzzle = puzzle.getPuzzle();
         System.out.print(toString(finalPuzzle));
-        //System.out.print(puzzle.toString());
         temp = getSudoku(finalPuzzle);
         reemoveMNum(level, temp);//saving the unsolved variable to temp
 
@@ -235,22 +233,21 @@ public class GridPanel extends JPanel implements Serializable {
                                 }
                             }
 
-                            /*
-                             * 1. Get the input String via tfCells[rowSelected][colSelected].getText()
-                             * 2. Convert the String to int via Integer.parseInt().
-                             * 3. Assume that the solution is unique. Compare the input number with
-                             *    the number in the puzzle[rowSelected][colSelected].  If they are the same,
-                             *    set the background to green (Color.GREEN); otherwise, set to red (Color.RED).
+                            /**
+                             * Geting the input String via inputFields[rowSelected][colSelected].getText()
+                             * and then Converting the String to int via Integer.parseInt().
+                             * And Checking the input against the final puzzle if the are thesame
+                             * the background color is set to Green and if wrong the background
+                             * color is set to Red
                              */
 
                             input = Integer.parseInt(inputFields[selectedRow][selectedCol].getText());
 
                             if (input == finalPuzzle[selectedRow][selectedCol]) {
                                 inputFields[selectedRow][selectedCol].setBackground(CORRECT);
-                                // System.out.print(input + " Matches" + finalPuzzle[selectedRow][selectedCol] );
+
                             } else
                                 inputFields[selectedRow][selectedCol].setBackground(WRONG);
-
                         }
                     });
 
@@ -276,16 +273,15 @@ public class GridPanel extends JPanel implements Serializable {
 
     /**
      * This method proved to be a challinging as my program always crashes once in every 3 or 5 runs giving an Out of
-     *
-     * @param mNum
-     * @param puzzle
+     * @param mNum si the number of celss that will be removed to form the puzzle.
+     * @param puzzle is the complete puzzle that is being generate before some digits are randomly removed.
      * @IndexOutofbounds Exception because the cellIndex that was being generated randomly was between 1 and 81 and for
      * It seldom generates 81 and when this happens and for i it divides it by 9 to get the cellIndex and and being an array of
      * size 9 the index ends at 8 hence i get an outOfbound exception and to fix this i simply subtract 1 from i when 81 is
      * randomly generated.
      */
 
-    public void reemoveMNum(int mNum, int[][] puzzle) {
+    private void reemoveMNum(int mNum, int[][] puzzle) {
         int count = mNum;
         // while
         while (count != 0) {
@@ -322,17 +318,11 @@ public class GridPanel extends JPanel implements Serializable {
         }
 
         if (temp == null) {
-
             return false;
-
         }
-
         if (finalPuzzle.length != temp.length) {
-
             return false;
-
         }
-
         for (int i = 0; i < finalPuzzle.length; i++) {
 
             if (!Arrays.equals(finalPuzzle[i], temp[i])) {
@@ -351,6 +341,4 @@ public class GridPanel extends JPanel implements Serializable {
 
         return isEqual(finalPuzzle, temp);
     }
-
-
 }

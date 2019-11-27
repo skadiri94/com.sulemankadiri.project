@@ -32,7 +32,6 @@ public class Player implements Serializable {
         this.score.add(score);
     }
 
-
     public String toString() {
 
         String txt ="";
@@ -41,7 +40,7 @@ public class Player implements Serializable {
                 txt += scr + "\n";
             }
         }
-        return String.format("Player Name: %s\nGames Completed: %s", getName(), txt);
+        return String.format("Name: %s\nCompleted:\n %s", getName(), txt);
     }
 
 

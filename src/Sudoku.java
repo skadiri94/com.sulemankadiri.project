@@ -1,17 +1,12 @@
-import java.io.Serializable;
-import java.util.*;
-
 /**
  * The Sudoko Generator
  **/
 
-public class Sudoku{
-
+public class Sudoku {
 
     private int superGrid; //The main 9*9 Grid.
     private int subGrid; // The sub 3*3 Grid.
     private int[][] puzzle;
-
 
     public Sudoku() {
 
@@ -19,20 +14,14 @@ public class Sudoku{
         setSubGrid(3);
         puzzle = new int[superGrid][superGrid];
 
-
     }
 
     // Sudoku Generator
     public void fillSudoku() {
         // Fill the diagonal of 3*3 subGrid
         populateDiagonal();
-
-
         // Fill remaining blocks
         populateSuperGrid(0, subGrid);
-
-        // Remove Randomly Missing digits to make game
-        //removeMNum(20);
     }
 
     public int getSuperGrid() {
@@ -181,7 +170,6 @@ public class Sudoku{
         while (count != 0) {
             int cellIndex = genRandomNum(superGrid * superGrid);
 
-
             //System.out.println(cellIndex);
             // extract coordinates i  and j
             int i = (cellIndex / superGrid);
@@ -216,7 +204,6 @@ public class Sudoku{
         return num;
     }
 
-
     public String toString() {
         String digits = "";
         for (int i = 0; i < superGrid; i++) {
@@ -226,7 +213,6 @@ public class Sudoku{
             }
             digits += "\n";
         }
-
 
         return digits;
     }
