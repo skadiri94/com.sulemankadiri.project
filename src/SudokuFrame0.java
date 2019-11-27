@@ -329,19 +329,27 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         });
         loadP.addActionListener(e -> {
             String txt = "";
-            String nameP = pName.getText();
+            if(!pName.getText().equals("")) {
+                if(!player.isEmpty()) {
+                    String nameP = pName.getText();
 
-            for (Player ply : player) {
-                if (ply.getName().equals(nameP)) {
-                    cplayer = ply;
-                    txt = "Welcome Back " + cplayer.toString();
-                    break;
+                    for (Player ply : player) {
+                        if (ply.getName().equals(nameP)) {
+                            cplayer = ply;
+                            txt = "Welcome Back " + cplayer.toString();
+                            break;
 
-                } else {
-                    txt = "Player Not Found!";
+                        } else {
+                            txt = "Player Not Found!";
 
+                        }
+                    }
                 }
+                else
+                    txt="No file has being Saved Or Loaded";
             }
+            else
+                txt = "Enter Name!";
             dText.setText(txt);
 
 
