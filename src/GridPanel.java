@@ -9,15 +9,20 @@ import java.util.Arrays;
 
 import static java.lang.String.valueOf;
 
+/**
+ *the Class Creates a 9x9 Grid Panel with a 3x3 sub Grid and assigns a Sudoku puzzle
+ * the Grid initializing some cells(Closed Cells) and Open cells that allows for
+ * a user input of only Integer values.
+ */
 public class GridPanel extends JPanel implements Serializable {
 
-    private final Color OPEN_CELL = new Color(245, 240, 240);
-    private final Color CLOSED_CELL = new Color(230, 230, 230);
+
     private final Color CORRECT = new Color(100, 180, 100);
     private final Color BORDER = new Color(100, 150, 200);
     private final Font FONT_SIZE = new Font("Arial", Font.BOLD, 16);
     int[][] temp;
     private int[][] finalPuzzle;
+
     //The UI Properties
     private int cellSize;
     private int panelWidth;
@@ -26,7 +31,10 @@ public class GridPanel extends JPanel implements Serializable {
     private JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
     private Color WRONG = new Color(200, 0, 50);
 
-
+/**
+ * This is the constructor for the GridPanel that creat a grid for the Sudoku  puzzle using a 2D array JFormatted Text Fields
+ * @param level gives the number of cells that will be Open for user input in the grid
+ * **/
     public GridPanel(int level) {
         setCellSize(40);
         // setBackground(BORDER);
@@ -55,34 +63,68 @@ public class GridPanel extends JPanel implements Serializable {
         JOptionPane.showMessageDialog(null, txt);
     }
 
+    /**
+     * gets the value of Cell Size
+     * @return the value of cell size
+     * **/
     public int getCellSize() {
         return cellSize;
     }
 
+    /**
+     * Sets the Value of Cell Size
+     * @param cellSize the value to be set
+     */
     public void setCellSize(int cellSize) {
         this.cellSize = cellSize;
     }
 
+    /**
+     * gets the value of Panel width
+     * @return the value of the Panel width
+     */
     public int getPanelWidth() {
         return panelWidth;
     }
 
+    /**
+     * Sets the value of Panel Width
+     * @param panelWidth the value to be set
+     */
     public void setPanelWidth(int panelWidth) {
         this.panelWidth = panelWidth;
     }
 
+    /**
+     * gets the value of Panel Height
+     * @return the value of Panel Height
+     */
     public int getPanelHeight() {
         return panelHeight;
     }
 
+    /**
+     * Sets the value of Panel Height
+     * @param panelHeight the value to be set
+     */
     public void setPanelHeight(int panelHeight) {
         this.panelHeight = panelHeight;
     }
 
+    /**
+     * gets the value of the Final Puzzle
+     * @return the Values
+     */
     public int[][] getFinalPuzzle() {
         return finalPuzzle;
     }
 
+    /**
+     * generates the Sudoko puzzle, first creates a sudoko object fills sudoko and get the puzzle  and stores
+     * it in the finalpuzzle variable and the remove some digits to creat a temp puzzle that will be assigned
+     * to the cells of the grid.
+     * @param level the number of digits to be removed from the complete puzzle wich is first generated
+     */
     public void genPuzzle(int level) {
 
         puzzle = new Sudoku();
@@ -95,6 +137,12 @@ public class GridPanel extends JPanel implements Serializable {
 
     }
 
+    /**
+     * Compares each digits in the 2D array puzzle to an Integer and returns true if it matches
+     * @param puzzle the puzzle which is being checked
+     * @param num the integer value being compared to the digits of the puzzle
+     * @return a boolean value
+     */
     public boolean isMatch(int[][] puzzle, int num) {
 
         for (int[] ints : puzzle) {
@@ -103,9 +151,13 @@ public class GridPanel extends JPanel implements Serializable {
                     return true;
         }
         return false;
-
     }
 
+    /**
+     * returns a string/textual representation of the 2D array object.
+     * @param finalPuzzle the 2D array object to be represented in string
+     * @return the String/textual representation
+     */
     public String toString(int[][] finalPuzzle) {
         StringBuilder digits = new StringBuilder();
         for (int[] ints : finalPuzzle) {
@@ -118,6 +170,11 @@ public class GridPanel extends JPanel implements Serializable {
         return digits.toString();
     }
 
+    /**
+     * takes the value of 2D arrays and reassigns it to another 2D array variable
+     * @param puzzle the 2D array to be re-assigned
+     * @return the values  that are being re-assigned
+     */
     public int[][] getSudoku(int[][] puzzle) {
         int[][] num = new int[9][9];
 
@@ -129,31 +186,9 @@ public class GridPanel extends JPanel implements Serializable {
     }
 
     /**
-     * Method overload returns and a 2 dimension integer arrays
-     *
-     * @param puzzle is  The puzzle inputed by use which will be  to be displayed
+     * takes the value of a 2D JFormattedTextField array and re-assigned them to a 2D integer array variable
+     * @return the 2D integer array.
      */
-
-    public int[][] getSudoku(JFormattedTextField[][] puzzle) {
-        int[][] num = new int[9][9];
-        int numInt;
-
-        for (int i = 0; i < puzzle.length; i++) {
-            for (int j = 0; j < puzzle[i].length; j++) {
-                // puzzle[i][j].getValue();
-                if (puzzle[i][j].getValue() == "") {
-                    numInt = 0;
-                    num[i][j] = numInt;
-                    System.out.print(puzzle[i][j].getValue());
-                }
-                num[i][j] = Integer.parseInt(puzzle[i][j].getText());
-
-            }
-        }
-
-        return num;
-    }
-
     public int[][] getSudoku() {
         int[][] num = new int[9][9];
 
@@ -173,9 +208,8 @@ public class GridPanel extends JPanel implements Serializable {
     }
 
     /**
-     * This Method defines and create the Grid cells before they are added to the panel
-     * it makes the constructor more tidy as this will require less lines of code going
-     * into the constructor.
+     * This Method defines, create and designs the Grid cells before they are added to the panel
+     * and it also adds ActionListeners to each cell of the grids
      **/
     private void paintGrid() {
 
@@ -184,7 +218,7 @@ public class GridPanel extends JPanel implements Serializable {
 
                 /*Was trying to get each cell of the sudoko box restricted for only integer and a single value input
                   had problems with the java document hence i used the JFormattedTextField
-                  https://stackoverflow.com/questions/11093326/restricting-jtextfield-input-to-integers
+                   {@link https://stackoverflow.com/questions/11093326/restricting-JTextfield-input-to-integers}
                   it's a requirement between the JFormattedTextField, NumberFormatter and NumberFormat that ""
                   is not a valid number, therefore it's rejecting your attempt to remove the last character.
                   This requirement is been enforced by numberFormatter.setAllowsInvalid. If I really did not  care about the format of the value,
@@ -271,7 +305,7 @@ public class GridPanel extends JPanel implements Serializable {
         }
     }
 
-    /**
+    /*
      * This method proved to be a challinging as my program always crashes once in every 3 or 5 runs giving an Out of
      * @param mNum si the number of celss that will be removed to form the puzzle.
      * @param puzzle is the complete puzzle that is being generate before some digits are randomly removed.
@@ -281,6 +315,11 @@ public class GridPanel extends JPanel implements Serializable {
      * randomly generated.
      */
 
+    /**
+     * removes random digits from the final puzzle to creat the incomplete puzzle
+     * @param mNum the number of digits to be removed
+     * @param puzzle the complete puzzle the random digits is to be removed from
+     */
     private void removeMNum(int mNum, int[][] puzzle) {
         int count = mNum;
         // while
@@ -309,6 +348,12 @@ public class GridPanel extends JPanel implements Serializable {
         }
     }
 
+    /**
+     * takes in two 2D arrays puzzle and compares them for equality and returns true of they are equal
+     * @param finalPuzzle puzzle A to be compared with B
+     * @param temp puzzle B to be compared with A
+     * @return a boolean Value
+     */
     public boolean isEqual(int[][] finalPuzzle, int[][] temp) {
 
         if (finalPuzzle == null) {
@@ -335,10 +380,23 @@ public class GridPanel extends JPanel implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean resultCheck() {
 
         temp = getSudoku();
 
         return isEqual(finalPuzzle, temp);
     }
+
+    /**
+     * Final version of was created by
+     * @author Suleman Kadiri
+     * @author T00204198
+     * @author Computing With Sofware Development
+     *code reference
+     * {@link https://www.ntu.edu.sg/home/ehchua/programming/java/JavaGame_Sudoku.html}
+     */
 }
