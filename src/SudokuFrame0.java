@@ -44,9 +44,12 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         //registering an exit close button.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        loadProgress(fileStorage);
-        //Creating the Index Panel for player registration and game level select
+        //check to see if file is found, if its found load the file
+        if(fileStorage.exists()){
+        loadProgress(fileStorage);}
 
+
+        //Creating the Index Panel for player registration and game level select
         createIndex();
         pane.add(index);
 
@@ -269,7 +272,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         JTextArea dText = new JTextArea();
         dText.setSize(50, 50);
         dText.setEditable(false);
-        dText.setFont(new Font("SanSerif", Font.BOLD, 12));
+        dText.setFont(new Font("TimesRoman", Font.BOLD, 13));
         dText.setForeground(Color.RED);
 
         index.setLayout(new BorderLayout());
