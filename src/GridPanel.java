@@ -20,9 +20,9 @@ public class GridPanel extends JPanel implements Serializable {
     private final Color CORRECT = new Color(100, 180, 100);
     private final Color BORDER = new Color(100, 150, 200);
     private final Font FONT_SIZE = new Font("Arial", Font.BOLD, 16);
+    private final Color WRONG = new Color(200, 0, 50);
 
-
-    int[][] temp;
+    private int[][] temp;
     private int cellSize;
     private int panelWidth;
     private int panelHeight;
@@ -70,7 +70,7 @@ public class GridPanel extends JPanel implements Serializable {
      *
      * @return the value of cell size
      **/
-    public int getCellSize() {
+    private int getCellSize() {
         return cellSize;
     }
 
@@ -79,7 +79,7 @@ public class GridPanel extends JPanel implements Serializable {
      *
      * @param cellSize the value to be set
      */
-    public void setCellSize(int cellSize) {
+    private void setCellSize(int cellSize) {
         this.cellSize = cellSize;
     }
 
@@ -97,7 +97,7 @@ public class GridPanel extends JPanel implements Serializable {
      *
      * @param panelWidth the value to be set
      */
-    public void setPanelWidth(int panelWidth) {
+    private void setPanelWidth(int panelWidth) {
         this.panelWidth = panelWidth;
     }
 
@@ -115,7 +115,7 @@ public class GridPanel extends JPanel implements Serializable {
      *
      * @param panelHeight the value to be set
      */
-    public void setPanelHeight(int panelHeight) {
+    private void setPanelHeight(int panelHeight) {
         this.panelHeight = panelHeight;
     }
 
@@ -135,7 +135,7 @@ public class GridPanel extends JPanel implements Serializable {
      *
      * @param level the number of digits to be removed from the complete puzzle wich is first generated
      */
-    public void genPuzzle(int level) {
+    private void genPuzzle(int level) {
 
         puzzle = new Sudoku();
         puzzle.fillSudoku();//Generates complete puzzle.
@@ -170,7 +170,7 @@ public class GridPanel extends JPanel implements Serializable {
      * @param finalPuzzle the 2D array object to be represented in string
      * @return the String/textual representation
      */
-    public String toString(int[][] finalPuzzle) {
+    private String toString(int[][] finalPuzzle) {
         StringBuilder digits = new StringBuilder();
         for (int[] ints : finalPuzzle) {
             for (int j = 0; j < ints.length; j++) {
@@ -188,7 +188,7 @@ public class GridPanel extends JPanel implements Serializable {
      * @param puzzle the 2D array to be re-assigned
      * @return the values  that are being re-assigned
      */
-    public int[][] getSudoku(int[][] puzzle) {
+    private int[][] getSudoku(int[][] puzzle) {
         int[][] num = new int[9][9];
 
         for (int i = 0; i < puzzle.length; i++) {
@@ -203,7 +203,7 @@ public class GridPanel extends JPanel implements Serializable {
      *
      * @return the 2D integer array.
      */
-    public int[][] getSudoku() {
+    private int[][] getSudoku() {
         int[][] num = new int[9][9];
 
         for (int i = 0; i < inputFields.length; i++) {
