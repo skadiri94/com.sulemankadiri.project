@@ -39,7 +39,7 @@ public class Player implements Serializable {
                 txt += scr + "\n";
             }
         }
-        return String.format("Name: %s\nCompleted:\n %s", getName(), txt);
+        return String.format("Name: %s\nCompleted     Time:\n%s", getName(), txt);
     }
 
 

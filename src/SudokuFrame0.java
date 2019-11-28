@@ -12,11 +12,6 @@ import java.util.Iterator;
  **/
 public class SudokuFrame0 extends JFrame implements ActionListener, Serializable {
 
-    private File fileStorage;
-    private ArrayList<Player> player = new ArrayList<>();
-    private Player cplayer;
-    private int level;
-
     //In Game menu for interact with the game like level select, play, stop and Save
     JMenu gameMenu, playerMenu;
     JLabel lsudoku, lSelect, pNLabel;
@@ -24,6 +19,10 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     JButton btnSubmit, btnPlay, levelB, levelI, levelM, createP, loadP;
     JTextField pName;
     GridPanel gp;
+    private File fileStorage;
+    private ArrayList<Player> player = new ArrayList<>();
+    private Player cplayer;
+    private int level;
 
     /**
      * a no argument constructor that creates the menu and populate them
@@ -35,7 +34,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         super("Sudoku");
         fileStorage = new File("Progress.dat");
         setSize(500, 500);
-        //setLocation(500,200);
+        setLocation(600, 300);
         setResizable(false);
         Container pane = getContentPane();
         //registering an exit close button.
@@ -227,7 +226,12 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         lsudoku = new JLabel("SUDOKU");
         topPanel.add(lsudoku);
 
-        btnSubmit = new JButton("SUBMIT");
+        // btnSubmit = new JButton("SUBMIT");
+        Icon icon = new ImageIcon("C:\\Users\\elsen\\IdeaProjects\\com.sulemankadiri.project\\src\\submit.png");
+        btnSubmit = new JButton(icon);
+        btnSubmit.setPreferredSize(new Dimension(78, 25));
+        btnSubmit.setBorder(new EmptyBorder(0, 0, 0, 0));
+        btnSubmit.setOpaque(false);
         btnSubmit.addActionListener(e -> {
             String txt;
             if (!gp.resultCheck()) {
@@ -236,16 +240,20 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             } else {
                 txt = "Puzzle Complete!";
                 timer.stop();
-                cplayer.addScore(levelToString() + "  " + timer.getDisplayTime());
-                GridPanel.showMessage(txt);
+                cplayer.addScore(levelToString() + "    " + timer.getDisplayTime());
                 saveProgress(fileStorage);
-                goToGame();
+                GridPanel.showMessage(txt);
+                if (JOptionPane.showConfirmDialog(null, "Replay Level", "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                    goToGame();
+                else
+                    goToUserIndex();
 
             }
 
         });
 
-        btnSubmit.setSize(40, 20);
+        //btnSubmit.setSize(40, 20);
+
         rightPanel.setLayout(new FlowLayout());
         rightPanel.setPreferredSize(new Dimension(100, 100));
         lTimer.setBorder(new EmptyBorder(5, 0, 5, 0));
@@ -261,44 +269,102 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     private void createIndex() {
 
         // creating a new GroupLayout object and associate it with the panel:
-        index = new JPanel();
+
+
+        index = new JPanel(new FlowLayout());
+        JLabel bgImg = new JLabel(new ImageIcon("C:\\Users\\elsen\\IdeaProjects\\com.sulemankadiri.project\\src\\592.jpg"));
         JPanel northP, centerP, southP;
-        JTextArea dText = new JTextArea();
+        JTextArea dText = new JTextArea(8, 20);
+
+        JScrollPane scroll = new JScrollPane();
+        JViewport viewport = new JViewport();
+
+        //Component that need to be added in Scroll pane//
+
+        viewport.setView(new JPanel());
+        viewport.setOpaque(false);
+        scroll.setViewport(viewport);
+        scroll.getViewport().setOpaque(false);
+        scroll.setOpaque(false);
+        //JScrollPane scrollPane = new JScrollPane();
+
+        // JScrollPane scroll = new JScrollPane(dText);
+        // scroll.setOpaque(false);
+        scroll.setHorizontalScrollBar(null);
+        scroll.setBorder(new EmptyBorder(0, 0, 0, 0));
+        scroll.getViewport().add(dText, null);
+
         dText.setSize(50, 50);
         dText.setEditable(false);
-        dText.setFont(new Font("TimesRoman", Font.BOLD, 13));
-        dText.setForeground(Color.RED);
+        dText.setOpaque(false);
+        dText.setFont(new Font("Serif Plain", Font.PLAIN, 15));
+        dText.setForeground(Color.white);
 
-        index.setLayout(new BorderLayout());
+        index.add(bgImg);
+        bgImg.setLayout(new BorderLayout());
         northP = new JPanel(new FlowLayout());
+        northP.setOpaque(false);
         northP.setBorder(new EmptyBorder(35, 5, 55, 5));//adds margin to panel
         northP.setAlignmentX(FlowLayout.CENTER);
 
         pNLabel = new JLabel("Player Name:");
+        pNLabel.setFont(new Font("Serif Plain", Font.PLAIN, 16));
+        pNLabel.setForeground(Color.white);
         pName = new JTextField(10);
+        pName.setOpaque(false);
+        pName.setForeground(Color.white);
+        pName.setFont(new Font("Serif Plain", Font.PLAIN, 16));
+        //setBackground(new Color(0,0,0,55));
         createP = new JButton("Create Profile");
+        createP.setBackground(new Color(179, 0, 0));
+        createP.setForeground(Color.white);
+        createP.setBorder(new EmptyBorder(5, 5, 5, 5));
         loadP = new JButton("Load Profile");
+        loadP.setBackground(new Color(0, 72, 186));
+        loadP.setForeground(Color.white);
+        loadP.setBorder(new EmptyBorder(5, 5, 5, 5));
         levelB = new JButton("Beginner");
+        levelB.setBackground(new Color(187, 51, 255));
+        levelB.setForeground(Color.white);
+        levelB.setBorder(new EmptyBorder(5, 5, 5, 5));
         levelI = new JButton("Intermediate");
+        levelI.setBackground(new Color(255, 140, 25));
+        levelI.setForeground(Color.white);
+        levelI.setBorder(new EmptyBorder(5, 5, 5, 5));
         levelM = new JButton("Master");
-        btnPlay = new JButton("Play");
+        levelM.setBackground(new Color(255, 25, 25));
+        levelM.setForeground(Color.white);
+        levelM.setBorder(new EmptyBorder(5, 10, 5, 10));
+        Icon icon = new ImageIcon("C:\\Users\\elsen\\IdeaProjects\\com.sulemankadiri.project\\src\\ply12.png");
+        btnPlay = new JButton(icon);
+        btnPlay.setPreferredSize(new Dimension(100, 58));
+        //btnPlay.setForeground(new Color(255, 255, 255).brighter());
+        btnPlay.setOpaque(false);
+        btnPlay.setBorder(new EmptyBorder(0, 0, 0, 0));
+        btnPlay.setBackground(new Color(250, 255, 250, 60));
 
         northP.add(pNLabel);
         northP.add(pName);
         northP.add(createP);
         northP.add(loadP);
-        northP.add(dText);
+        northP.add(scroll);
         dText.setText("");
         centerP = new JPanel();
         centerP.setLayout(new FlowLayout());
+        centerP.setPreferredSize(new Dimension(100, 100));
+        centerP.setOpaque(false);
         lSelect = new JLabel("Select Difficulty Level:");
+        lSelect.setFont(new Font("Serif Plain", Font.PLAIN, 16));
+        lSelect.setForeground(Color.white);
         centerP.add(lSelect);
         centerP.add(levelB);
         centerP.add(levelI);
         centerP.add(levelM);
         southP = new JPanel(new FlowLayout());
         southP.add(btnPlay);
+        southP.setOpaque(false);
         southP.setBorder(new EmptyBorder(5, 5, 35, 5));//adds margin to panel
+        southP.setPreferredSize(new Dimension(100, 150));
 
         pName.addActionListener(this);
         createP.addActionListener(e -> {
@@ -343,15 +409,15 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             dText.setText(txt);
 
         });
-        levelB.addActionListener(e -> level = 10);
-        levelI.addActionListener(e -> level = 30);
-        levelM.addActionListener(e -> level = 65);
+        levelB.addActionListener(e -> level = 1);
+        levelI.addActionListener(e -> level = 2);
+        levelM.addActionListener(e -> level = 3);
         btnPlay.addActionListener(e -> goToGame());
 
+        bgImg.add(northP, BorderLayout.NORTH);
+        bgImg.add(centerP, BorderLayout.CENTER);
+        bgImg.add(southP, BorderLayout.SOUTH);
 
-        index.add(northP, BorderLayout.NORTH);
-        index.add(centerP, BorderLayout.CENTER);
-        index.add(southP, BorderLayout.SOUTH);
     }
 
 
@@ -382,18 +448,20 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     private String levelToString() {
         String txt = "";
         switch (level) {
-            case 10:
-                txt = "Beginners";
+            case 1:
+                txt = "Beginners   ";
                 break;
-            case 30:
+            case 2:
                 txt = "Intermediate";
                 break;
-            case 65:
-                txt = "Master";
+            case 3:
+                txt = "Master        ";
                 break;
         }
         return txt;
     }
+
+
 }
 
 

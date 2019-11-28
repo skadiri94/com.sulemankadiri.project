@@ -4,5 +4,6 @@ public class SudokuDriver{
         SudokuFrame0 sPanel = new SudokuFrame0();
         sPanel.setVisible(true);
 
+
     }
 }
