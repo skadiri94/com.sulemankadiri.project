@@ -16,10 +16,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     private ArrayList<Player> player = new ArrayList<>();
     private Player cplayer;
     private int level;
-    private int[][] finalPuzzle = new int[9][9];
-    private int[][] temp = new int[9][9];
 
-    JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
     //In Game menu for interact with the game like level select, play, stop and Save
     JMenu gameMenu, playerMenu;
     JLabel lsudoku, lSelect, pNLabel;
@@ -45,9 +42,9 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         //check to see if file is found, if its found load the file
-        if(fileStorage.exists()){
-        loadProgress(fileStorage);}
-
+        if (fileStorage.exists()) {
+            loadProgress(fileStorage);
+        }
 
         //Creating the Index Panel for player registration and game level select
         createIndex();
@@ -73,7 +70,6 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         //Create the menu
 
         gameMenu = new JMenu("Menu");
-
         playerMenu = new JMenu("Player");
 
         //Action Listener can't be added to an instance of JMune but with Jemune Item it can
@@ -115,49 +111,49 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     public void actionPerformed(ActionEvent event) {
         String menuName;
         menuName = event.getActionCommand(); // what's written on the item that was clicked
-        if (menuName.equals("Exit")) {
-            saveProgress(fileStorage);
-            System.exit(0);
-        } // end if
-        else if (menuName.equals("Save Game")) {
+        switch (menuName) {
+            case "Exit":
+                saveProgress(fileStorage);
+                System.exit(0);
+            case "Save Game":
 
-            GridPanel.showMessage("Game Saved");
-        } //end else if
+                GridPanel.showMessage("Game Saved");
+                break;
+            case "Record":
+                String txt;
+                if (cplayer == null) {
+                    txt = "No Player Record Found! Load or Create Profile";
+                } else
+                    txt = cplayer.toString();
 
-        else if (menuName.equals("Record")) {
-            String txt;
-            if (cplayer == null) {
-                txt = "No Player Record Found! Load or Create Profile";
-            } else
-                txt = cplayer.toString();
+                GridPanel.showMessage(txt);
+                break;
+            case "Load Game":
+                goToIndex();
+                createP.setVisible(false);
+                cplayer = null;
+                level = 0;
+                pName.requestFocus();
+                break;
+            case "New Game":
+                goToUserIndex();
+                break;
+            case "New Profile":
+                goToIndex();
+                cplayer = null;
+                level = 0;
+                pName.requestFocus();
+                break;
+            case "Delete Profile":
+                String playerDel;
+                cplayer = null;
 
-            GridPanel.showMessage(txt);
-        } // end if
-        else if (menuName.equals("Load Game")) {
-            goToIndex();
-            createP.setVisible(false);
-            cplayer = null;
-            level = 0;
-            pName.requestFocus();
-        } else if (menuName.equals("New Game")) {
-            goToUserIndex();
-        } else if (menuName.equals("New Profile")) {
-            goToIndex();
-            cplayer = null;
-            level = 0;
-            pName.requestFocus();
-        } else if (event.getSource() == btnPlay) {
-            goToGame();
+                playerDel = JOptionPane.showInputDialog("Enter the Profile You wish to Delete");
+                delectProfile(playerDel, player);
+                saveProgress(fileStorage);
 
-        } else if (menuName.equals("Delete Profile")) {
-            String playerDel;
-            cplayer = null;
-
-            playerDel = JOptionPane.showInputDialog("Enter the Profile You wish to Delete");
-            delectProfile(playerDel, player);
-            saveProgress(fileStorage);
-
-        } // end else
+                break;
+        }
 
     }
 
@@ -204,7 +200,6 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             e.printStackTrace();
         }
 
-
     }
 
     public void loadProgress(File file) {
@@ -233,7 +228,6 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         topPanel.add(lsudoku);
 
         btnSubmit = new JButton("SUBMIT");
-        inputFields = new JFormattedTextField[9][9];
         btnSubmit.addActionListener(e -> {
             String txt;
             if (!gp.resultCheck()) {
@@ -288,7 +282,6 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         levelI = new JButton("Intermediate");
         levelM = new JButton("Master");
         btnPlay = new JButton("Play");
-        //levelB.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         northP.add(pNLabel);
         northP.add(pName);
@@ -329,8 +322,8 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         });
         loadP.addActionListener(e -> {
             String txt = "";
-            if(!pName.getText().equals("")) {
-                if(!player.isEmpty()) {
+            if (!pName.getText().equals("")) {
+                if (!player.isEmpty()) {
                     String nameP = pName.getText();
 
                     for (Player ply : player) {
@@ -341,23 +334,19 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
                         } else {
                             txt = "Player Not Found!";
-
                         }
                     }
-                }
-                else
-                    txt="No file has being Saved Or Loaded";
-            }
-            else
+                } else
+                    txt = "No file has being Saved Or Loaded";
+            } else
                 txt = "Enter Name!";
             dText.setText(txt);
-
 
         });
         levelB.addActionListener(e -> level = 10);
         levelI.addActionListener(e -> level = 30);
         levelM.addActionListener(e -> level = 65);
-        btnPlay.addActionListener(this);
+        btnPlay.addActionListener(e -> goToGame());
 
 
         index.add(northP, BorderLayout.NORTH);
@@ -386,7 +375,6 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         for (Player pl : player) {
             if (pl.getName().equals(plyr))
                 return true;
-
         }
         return false;
     }
