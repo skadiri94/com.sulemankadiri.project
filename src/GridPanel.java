@@ -16,20 +16,20 @@ import static java.lang.String.valueOf;
  */
 public class GridPanel extends JPanel implements Serializable {
 
-
+    //The UI Properties
     private final Color CORRECT = new Color(100, 180, 100);
     private final Color BORDER = new Color(100, 150, 200);
     private final Font FONT_SIZE = new Font("Arial", Font.BOLD, 16);
-    int[][] temp;
-    private int[][] finalPuzzle;
 
-    //The UI Properties
+
+    int[][] temp;
     private int cellSize;
     private int panelWidth;
     private int panelHeight;
     private Sudoku puzzle;
+    private int[][] finalPuzzle;
     private JFormattedTextField[][] inputFields = new JFormattedTextField[9][9];
-    private Color WRONG = new Color(200, 0, 50);
+
 
     /**
      * This is the constructor for the GridPanel that creat a grid for the Sudoku  puzzle using a 2D array JFormatted Text Fields
@@ -166,6 +166,7 @@ public class GridPanel extends JPanel implements Serializable {
 
     /**
      * returns a string/textual representation of the 2D array object.
+     *
      * @param finalPuzzle the 2D array object to be represented in string
      * @return the String/textual representation
      */
@@ -207,8 +208,7 @@ public class GridPanel extends JPanel implements Serializable {
 
         for (int i = 0; i < inputFields.length; i++) {
             for (int j = 0; j < inputFields[i].length; j++) {
-                // puzzle[i][j].getValue();
-                // int numTemp = Integer.parseInt(inputFields[i][j].getText());
+
                 if (inputFields[i][j].getValue() == null) {
                     num[i][j] = 0;
                     inputFields[i][j].setBackground(WRONG);
@@ -330,6 +330,7 @@ public class GridPanel extends JPanel implements Serializable {
 
     /**
      * removes random digits from the final puzzle to creat the incomplete puzzle
+     *
      * @param mNum   the number of digits to be removed
      * @param puzzle the complete puzzle the random digits is to be removed from
      */
@@ -395,9 +396,11 @@ public class GridPanel extends JPanel implements Serializable {
     }
 
     /**
-     * @return
+     * checks results of the puzzle
+     *
+     * @return a boolean value
      */
-    public boolean resultCheck() {
+    boolean resultCheck() {
 
         temp = getSudoku();
 

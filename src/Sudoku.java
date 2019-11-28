@@ -17,7 +17,7 @@ public class Sudoku {
     }
 
     // Sudoku Generator
-    public void fillSudoku() {
+    void fillSudoku() {
         // Fill the diagonal of 3*3 subGrid
         populateDiagonal();
         // Fill remaining blocks
@@ -28,7 +28,7 @@ public class Sudoku {
         return superGrid;
     }
 
-    public void setSuperGrid(int superGrid) {
+    private void setSuperGrid(int superGrid) {
         this.superGrid = superGrid;
     }
 
@@ -36,7 +36,7 @@ public class Sudoku {
         return subGrid;
     }
 
-    public void setSubGrid(int subGrid) {
+    private void setSubGrid(int subGrid) {
         this.subGrid = subGrid;
     }
 
@@ -45,7 +45,7 @@ public class Sudoku {
     }
 
     //The method generates a random number between 1-9.
-    int genRandomNum(int superGrid) {
+    private int genRandomNum(int superGrid) {
         return ((int) (Math.random() * (superGrid - 1 + 1))) + 1;
     }
 
@@ -110,9 +110,7 @@ public class Sudoku {
 
                 } while (!cellCheck(row, col, ranNum));
 
-
                 puzzle[row + i][col + j] = ranNum;
-
 
             }
         }
@@ -156,7 +154,7 @@ public class Sudoku {
         return false;
     }
 
-    // Fill the diagonal SRN number of SRN x SRN matrices
+    // Fill the diagonal SuperGrid number of 9 x 9 matrices
     void populateDiagonal() {
 
         for (int i = 0; i < superGrid; i = i + subGrid)
@@ -195,11 +193,8 @@ public class Sudoku {
     public int[][] getSudoku() {
         int[][] num = new int[9][9];
 
-        for (int i = 0; i < this.puzzle.length; i++) {
-            for (int j = 0; j < this.puzzle[i].length; j++) {
-                num[i][j] = this.puzzle[i][j];
-            }
-        }
+        for (int i = 0; i < this.puzzle.length; i++)
+            for (int j = 0; j < this.puzzle[i].length; j++) num[i][j] = this.puzzle[i][j];
 
         return num;
     }
