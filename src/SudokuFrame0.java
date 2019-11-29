@@ -227,7 +227,8 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         topPanel.add(lsudoku);
 
         // btnSubmit = new JButton("SUBMIT");
-        Icon icon = new ImageIcon("C:\\Users\\elsen\\IdeaProjects\\com.sulemankadiri.project\\src\\submit.png");
+
+        Icon icon = new ImageIcon(getClass().getResource("/resources/submit.png"));
         btnSubmit = new JButton(icon);
         btnSubmit.setPreferredSize(new Dimension(78, 25));
         btnSubmit.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -272,7 +273,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
 
 
         index = new JPanel(new FlowLayout());
-        JLabel bgImg = new JLabel(new ImageIcon("C:\\Users\\elsen\\IdeaProjects\\com.sulemankadiri.project\\src\\592.jpg"));
+        JLabel bgImg = new JLabel(new ImageIcon(getClass().getResource("/resources/592.jpg")));
         JPanel northP, centerP, southP;
         JTextArea dText = new JTextArea(8, 20);
 
@@ -335,7 +336,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         levelM.setBackground(new Color(255, 25, 25));
         levelM.setForeground(Color.white);
         levelM.setBorder(new EmptyBorder(5, 10, 5, 10));
-        Icon icon = new ImageIcon("C:\\Users\\elsen\\IdeaProjects\\com.sulemankadiri.project\\src\\ply12.png");
+        Icon icon = new ImageIcon(getClass().getResource("/resources/ply12.png"));
         btnPlay = new JButton(icon);
         btnPlay.setPreferredSize(new Dimension(100, 58));
         //btnPlay.setForeground(new Color(255, 255, 255).brighter());
@@ -409,9 +410,9 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
             dText.setText(txt);
 
         });
-        levelB.addActionListener(e -> level = 1);
-        levelI.addActionListener(e -> level = 2);
-        levelM.addActionListener(e -> level = 3);
+        levelB.addActionListener(e -> level = 10);
+        levelI.addActionListener(e -> level = 30);
+        levelM.addActionListener(e -> level = 65);
         btnPlay.addActionListener(e -> goToGame());
 
         bgImg.add(northP, BorderLayout.NORTH);
@@ -448,13 +449,13 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     private String levelToString() {
         String txt = "";
         switch (level) {
-            case 1:
+            case 10:
                 txt = "Beginners   ";
                 break;
-            case 2:
+            case 30:
                 txt = "Intermediate";
                 break;
-            case 3:
+            case 65:
                 txt = "Master        ";
                 break;
         }
