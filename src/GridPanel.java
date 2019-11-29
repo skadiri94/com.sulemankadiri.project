@@ -264,7 +264,7 @@ public class GridPanel extends JPanel implements Serializable {
                         public void keyReleased(KeyEvent e) {
                             int selectedRow = -1;
                             int selectedCol = -1;
-                            int input;
+                            int input = 0;
 
                             // Getting the source object that fired the event
                             JFormattedTextField source = (JFormattedTextField) e.getSource();
@@ -288,7 +288,19 @@ public class GridPanel extends JPanel implements Serializable {
                               color is set to Red
                              */
 
-                            input = Integer.parseInt(inputFields[selectedRow][selectedCol].getText());
+                            boolean valid = false;
+                            while (!valid) {
+
+                                try {
+                                    input = Integer.parseInt(inputFields[selectedRow][selectedCol].getText());
+                                    valid = true;
+
+                                } // end try
+                                catch (NumberFormatException f) {
+                                    break;
+                                } // end catch
+
+                            }
 
                             if (input == finalPuzzle[selectedRow][selectedCol]) {
                                 inputFields[selectedRow][selectedCol].setBackground(CORRECT);
