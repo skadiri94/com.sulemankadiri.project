@@ -115,6 +115,8 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
                 saveProgress(fileStorage);
                 System.exit(0);
             case "Save Game":
+                if (cplayer != null)
+                    saveProgress(fileStorage);
 
                 GridPanel.showMessage("Game Saved");
                 break;
@@ -167,14 +169,16 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     public void goToUserIndex() {
         createIndex();
         level = 0;
-        pName.setText(cplayer.getName());
-        pName.setEditable(false);
-        createP.setVisible(false);
-        loadP.setVisible(false);
-        this.setContentPane(index);
-        this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
-        this.revalidate();
-
+        if (cplayer != null) {
+            pName.setText(cplayer.getName());
+            pName.setEditable(false);
+            createP.setVisible(false);
+            loadP.setVisible(false);
+            this.setContentPane(index);
+            this.repaint();             //Ensures that the frame swaps to the next panel and doesn't get stuck.
+            this.revalidate();
+        } else
+            JOptionPane.showMessageDialog(null, "No Player Profile loaded");
     }
 
     public void goToGame() {

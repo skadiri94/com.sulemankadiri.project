@@ -297,7 +297,7 @@ public class GridPanel extends JPanel implements Serializable {
 
                                 } // end try
                                 catch (NumberFormatException f) {
-                                    break;
+                                    return;
                                 } // end catch
 
                             }
