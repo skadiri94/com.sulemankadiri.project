@@ -24,10 +24,6 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
     private Player cplayer;
     private int level;
 
-    /**
-     * a no argument constructor that creates the menu and populate them
-     **/
-
     public SudokuFrame0() {
 
         //Setting the panel's default properties
@@ -39,6 +35,9 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         Container pane = getContentPane();
         //registering an exit close button.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        ImageIcon icon = new ImageIcon(getClass().getResource("/resources/icon.png"));
+        setIconImage(icon.getImage());
+
 
         //check to see if file is found, if its found load the file
         if (fileStorage.exists()) {
@@ -59,6 +58,15 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         menuBar.add(gameMenu);
         menuBar.add(playerMenu);
         //menuBar.add(exitMenu);
+
+    }
+
+    /**
+     * a no argument constructor that creates the menu and populate them
+     **/
+    public static void main(String[] args) {
+        SudokuFrame0 sPanel = new SudokuFrame0();
+        sPanel.setVisible(true);
 
     }
 
