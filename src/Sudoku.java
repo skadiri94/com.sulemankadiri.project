@@ -17,7 +17,7 @@ public class Sudoku {
     }
 
     // Sudoku Generator
-    void fillSudoku() {
+    public void fillSudoku() {
         // Fill the diagonal of 3*3 subGrid
         populateDiagonal();
         // Fill remaining blocks
@@ -54,7 +54,7 @@ public class Sudoku {
      * of the row and the random number being generated
      */
 
-    boolean rowCheck(int i, int ranNum) {
+    public boolean rowCheck(int i, int ranNum) {
         for (int j = 0; j < superGrid; j++)
             if (puzzle[i][j] == ranNum)
                 return false;
@@ -66,7 +66,7 @@ public class Sudoku {
      * of the row and the random number being generated
      */
 
-    boolean colCheck(int j, int ranNum) {
+    public boolean colCheck(int j, int ranNum) {
 
         for (int i = 0; i < superGrid; i++)
 
@@ -80,7 +80,7 @@ public class Sudoku {
      * Method to check the 3*3 subGrid for exiting number, takes in the array of  Puzzel digits and index
      * of the row and Column and the random number being generated
      */
-    boolean subGridCheck(int startOfRow, int startOfCol, int ranNum) {
+    public boolean subGridCheck(int startOfRow, int startOfCol, int ranNum) {
         for (int i = 0; i < subGrid; i++)
             for (int j = 0; j < subGrid; j++)
                 if (puzzle[startOfRow + i][startOfCol + j] == ranNum)
@@ -94,13 +94,13 @@ public class Sudoku {
      * to check the existence of the randomly generated number
      */
 
-    boolean cellCheck(int i, int j, int ranNum) {
+    public boolean cellCheck(int i, int j, int ranNum) {
         return (rowCheck(i, ranNum) && colCheck(j, ranNum) &&
                 subGridCheck(i - i % subGrid, j - j % subGrid, ranNum));
     }
 
     //Populating the SubGrid 3*3
-    void populateSubGrid(int row, int col) {
+   public void populateSubGrid(int row, int col) {
 
         int ranNum;
         for (int i = 0; i < subGrid; i++) {
@@ -118,7 +118,7 @@ public class Sudoku {
     }
 
     //Populating the Super Grid 9*9
-    boolean populateSuperGrid(int i, int j) {
+   public boolean populateSuperGrid(int i, int j) {
         //  System.out.println(i+" "+j);
         if (j >= superGrid && i < superGrid - 1) {
             i = i + 1;
@@ -155,7 +155,7 @@ public class Sudoku {
     }
 
     // Fill the diagonal SuperGrid number of 9 x 9 matrices
-    void populateDiagonal() {
+  public  void populateDiagonal() {
 
         for (int i = 0; i < superGrid; i = i + subGrid)
 
@@ -163,26 +163,6 @@ public class Sudoku {
             populateSubGrid(i, i);
     }
 
-    public void removeMNum(int mNum) {
-        int count = mNum;
-        while (count != 0) {
-            int cellIndex = genRandomNum(superGrid * superGrid);
-
-            //System.out.println(cellIndex);
-            // extract coordinates i  and j
-            int i = (cellIndex / superGrid);
-            int j = cellIndex % superGrid;
-
-            if (j != 0)
-                j = j - 1;
-
-            // System.out.println(i+" "+j);
-            if (puzzle[i][j] != 0) {
-                count--;
-                puzzle[i][j] = 0;
-            }
-        }
-    }
 
     /**
      * I had problems with the 2D array trying to get the reference instead of the contents
@@ -190,14 +170,6 @@ public class Sudoku {
      * the problem.
      **/
 
-    public int[][] getSudoku() {
-        int[][] num = new int[9][9];
-
-        for (int i = 0; i < this.puzzle.length; i++)
-            for (int j = 0; j < this.puzzle[i].length; j++) num[i][j] = this.puzzle[i][j];
-
-        return num;
-    }
 
     public String toString() {
         String digits = "";

@@ -227,7 +227,7 @@ public class SudokuFrame0 extends JFrame implements ActionListener, Serializable
         finalPanel.setSize(this.getSize());
         finalPanel.setLayout(new BorderLayout());
         JLabel lTimer = new JLabel("Time:");
-        myTimer timer = new myTimer(100);
+        MyTimer timer = new MyTimer(100);
 
         gp = new GridPanel(level);
 

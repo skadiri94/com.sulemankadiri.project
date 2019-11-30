@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class myTimer extends JLabel {
+public class MyTimer extends JLabel {
 
     private String displayTime;
     private Timer refreshRate;
@@ -15,7 +15,7 @@ public class myTimer extends JLabel {
     private int minutes;
     private int hours;
 
-    public myTimer(int delay){
+    public MyTimer(int delay){
 
         refreshRate = new Timer(delay, new ActionListen());
         start();
